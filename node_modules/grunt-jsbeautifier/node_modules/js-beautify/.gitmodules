@@ -1,0 +1,3 @@
+[submodule "third-party/codemirror"]
+	path = third-party/codemirror
+	url = http://marijnhaverbeke.nl/git/codemirror

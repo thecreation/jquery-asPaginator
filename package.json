@@ -1,0 +1,32 @@
+{
+  "name": "paginator",
+  "title": "Paginator",
+  "description": "a jquery paginator",
+  "version": "0.1.0",
+  "homepage": "https://github.com/amazingSurge/paginator",
+  "author": {
+    "name": "joeylin",
+    "email": "yao.lin.joe@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amazingSurge/paginator.git"
+  },
+  "bugs": "https://github.com/amazingSurge/paginator/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/amazingSurge/paginator/blob/master/LICENSE-MIT"
+    }
+  ],
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-concat": "~0.1.2",
+    "grunt-contrib-uglify": "~0.1.1",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt": "~0.4.0",
+    "grunt-jsbeautifier": "~0.1.6",
+    "grunt-recess": "~0.3.1"
+  }
+}

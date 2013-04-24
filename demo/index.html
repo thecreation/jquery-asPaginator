@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Paginator</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/prism.css">
+        <link rel="stylesheet" href="css/main.css">       
+        <link rel="stylesheet" href="css/paginator.css">
+
+
+        <script src="js/vendor/jquery-1.9.1.min.js"></script>
+        <script src="js/vendor/jquery.toc.js"></script>
+        <script src="js/vendor/prism.js"></script>
+        <script src="js/vendor/bootstrap.js"></script>
+        <script src="../src/jquery.paginator.js"></script>
+        <style type="text/css">
+            #paginator-content {
+                height: 100px;
+
+                margin-top: 10px;
+            }
+            h2 {
+                margin-bottom: 40px;
+            }
+        </style>
+    </head>
+<body>
+<!--[if lt IE 7]>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+<![endif]-->
+
+<div id="toc"></div>
+<div id="wrapper">
+    <section>
+        <h2>demo</h2>
+        
+        <section>
+            <h4>Default</h4>
+            <pre class="has-example"><code class="language-javascript">
+$(".custom").paginator(100);
+            </code></pre>
+            <div class="example">
+                <div id="custom"></div>
+                
+                <script>                   
+                    $(document).ready(function() {
+                        $("#custom").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            skin: 'skin-1',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="skin-2"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#skin-2").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            skin: 'skin-2',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="skin-3"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#skin-3").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            skin: 'skin-3',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="skin-4"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#skin-4").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            skin: 'skin-4',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="skin-5"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#skin-5").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            hideLists: true,
+                            prevText:  '<< prev',
+                            nextText: 'next >>',
+                            skin: 'skin-5',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="skin-6"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#skin-6").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            hideLists: true,
+                            prevText:  '← prev',
+                            nextText: 'next →',
+                            skin: 'skin-6',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+        </section>
+
+        <section>
+            <h4>Fix</h4>
+            <pre class="has-example"><code class="language-javascript">
+$(".custom").paginator(100,{fix:true});
+            </code></pre>
+            <div class="example">
+                <div id="custom-1"></div>
+                
+                <script>                   
+                    $(document).ready(function() {
+                        $("#custom-1").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            fix: true,
+                            skin: 'skin-1',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="fix-skin-2"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#fix-skin-2").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            fix: true,
+                            skin: 'skin-2',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="fix-skin-3"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#fix-skin-3").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            fix: true,
+                            skin: 'skin-3',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+            <div class="example">
+                <div id="fix-skin-4"></div>
+                <script>                   
+                    $(document).ready(function() {
+                        $("#fix-skin-4").paginator(100,{
+                            currentPage: 1,
+                            numPerPage: 10,
+                            fix: true,
+                            skin: 'skin-4',
+                            onShow: function(page) {
+                                var url = '' + page;
+                                console.log('ajax request')
+                                $.ajax({
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function(data) {
+
+                                    }
+                                })
+                            }
+                        });                         
+                    });
+                </script>
+            </div>
+
+        </section>
+
+        <div id="content">
+
+        </div>
+
+        
+        
+
+    </section>
+    
+      
+        
+        
+    
+</div>
+
+<script>
+(function(){
+    $('#toc').toc();
+    })();
+</script>
+</body>
+</html>
