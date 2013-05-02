@@ -2,11 +2,23 @@
 
 Paginator was designed to make implementation as easy as possible. Before implementing, make sure you meet the minimum requirements.
 
-## Getting Started
-Download the [production version][min] or the [development version][max].
+## Requirements
+- jQuery 1.4.x or greater
 
-[min]: https://raw.github.com/amazingSurge/paginator/master/dist/paginator.min.js
-[max]: https://raw.github.com/amazingSurge/paginator/master/dist/paginator.js
+## Implementation
+For the most basic implementation, follow the steps below:
+1. Download the [jquery-paginator][https://raw.github.com/amazingSurge/jquery-paginator] Package
+
+
+
+
+## Getting Started
+Download the [source][min].
+
+[min]: https://raw.github.com/amazingSurge/jquery-paginator/master/src/jquery.paginator.js
+
+
+
 
 In your web page:
 
