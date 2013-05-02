@@ -11,8 +11,7 @@ For the most basic implementation, follow the steps below:
 
 1. Download the [jquery-paginator](https://raw.github.com/amazingSurge/jquery-paginator) Package
 
-2. Unzip the package and upload the following files into a folder on your website:
-   
+2. Unzip the package and upload the following files into a folder on your website:  
 	-  jquery.paginator.js
 	-  paginator.css 
 
