@@ -6,36 +6,33 @@ Paginator was designed to make implementation as easy as possible. Before implem
 - jQuery 1.4.x or greater
 
 ## Implementation
+
 For the most basic implementation, follow the steps below:
-1. Download the [jquery-paginator][https://raw.github.com/amazingSurge/jquery-paginator] Package
+
+1. Download the [jquery-paginator](https://raw.github.com/amazingSurge/jquery-paginator) Package
+
+2. Unzip the package and upload the following files into a folder on your website:
+   
+   -  jquery.paginator.js
+   -  paginator.css 
+
+3. On the page you are implementing Uploadify on, add a reference to the jQuery library.
+
+4. Below the reference to jQuery, add a reference to the Uploadify script.
+
+5. On the page, add a file input (or any other element with an ID works).
+
+6. Initialize Uploadify on the file input.
+
+7. Add a link to the Uploadify stylesheets in the head of the document.
 
 
 
-
-## Getting Started
-Download the [source][min].
-
-[min]: https://raw.github.com/amazingSurge/jquery-paginator/master/src/jquery.paginator.js
-
-
-
-
-In your web page:
-
-```html
-<script src="jquery.js"></script>
-<script src="dist/paginator.min.js"></script>
-<script>
-jQuery(function($) {
-  $.awesome(); // "awesome"
-});
-</script>
-```
 
 ## Documentation
 _(Coming soon)_
 
-## Examples
+## License MIT
 _(Coming soon)_
 
 ## Release History
