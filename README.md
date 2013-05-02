@@ -31,7 +31,7 @@ For the most basic implementation, follow the steps below:
 6. Initialize Paginator on the file input. the first argument is the total pages get from your server , the second is options. 
 
 		$(document).ready(function() {
-		    $("#custom").paginator(100,{
+		    $(".jquery-paginator").paginator(100,{
 		        currentPage: 1,
 		        numPerPage: 10,
 		        skin: 'skin-1',
