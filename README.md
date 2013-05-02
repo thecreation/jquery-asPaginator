@@ -16,17 +16,44 @@ For the most basic implementation, follow the steps below:
    -  jquery.paginator.js
    -  paginator.css 
 
-3. On the page you are implementing Uploadify on, add a reference to the jQuery library.
+3. On the page you are implementing Paginator on, add a reference to the jQuery library.
 
-4. Below the reference to jQuery, add a reference to the Uploadify script.
+`<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>`
 
-5. On the page, add a file input (or any other element with an ID works).
+4. Below the reference to jQuery, add a reference to the Paginator script.
 
-6. Initialize Uploadify on the file input.
+`<script type="text/javascript" src="/jquery.paginator.js"></script>`
 
-7. Add a link to the Uploadify stylesheets in the head of the document.
+5. On the page, add a div (or any other element with an class works).
 
+`<div class="jquery-paginator"><div>`
 
+6. Initialize Paginator on the file input. the first argument is the total pages get from your server , the second is options. 
+
+`$(document).ready(function() {
+    $("#custom").paginator(100,{
+        currentPage: 1,
+        numPerPage: 10,
+        skin: 'skin-1',
+        onShow: function(page) {
+        	// here sets page link
+            var url = '' + page;
+            
+            console.log('ajax request')
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                success: function(data) {
+
+                }
+            })
+        }
+    });                         
+});`
+
+7. Add a link to the Paginator stylesheets in the head of the document.
+
+`<link rel="stylesheet" type="text/css" href="paginator.css" />`
 
 
 ### Documentation
