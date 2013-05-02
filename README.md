@@ -2,10 +2,10 @@
 
 Paginator was designed to make implementation as easy as possible. Before implementing, make sure you meet the minimum requirements.
 
-## Requirements
+### Requirements
 - jQuery 1.4.x or greater
 
-## Implementation
+### Implementation
 
 For the most basic implementation, follow the steps below:
 
@@ -29,11 +29,11 @@ For the most basic implementation, follow the steps below:
 
 
 
-## Documentation
+### Documentation
 _(Coming soon)_
 
-## License MIT
+### License MIT
 _(Coming soon)_
 
-## Release History
+### Release History
 _(Nothing yet)_
