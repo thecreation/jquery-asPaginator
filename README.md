@@ -1,6 +1,6 @@
 # Paginator
 
-a jquery paginator
+Paginator was designed to make implementation as easy as possible. Before implementing, make sure you meet the minimum requirements.
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
