@@ -28,8 +28,56 @@
         this.components = $.extend(true,{},this.components);
 
         this.$element.addClass(this.namespace).addClass(this.options.skin);
+        var self = this;
 
-        this.init(); 
+        $.extend(this, {
+            init: function() {
+                var
+                    prev = '<li class="'+ self.namespace + '-prev' + '"><a href="#"></a></li>',
+                    next = '<li class="'+ self.namespace + '-next' + '"><a href="#"></a></li>';
+
+                self.$wrap = $('<ul class="'+ self.namespace + '-basic' +'"></ul>');
+                self.$prev = $(prev).find('a').html(self.options.prevText).end().appendTo(self.$wrap);
+                self.$next = $(next).find('a').html(self.options.nextText).end().appendTo(self.$wrap); 
+
+                if (self.options.hideLists === false) {
+                    self.components['lists'].init(self);
+                }
+                      
+                self.$prev.on('click',$.proxy(self.prev,self));
+                self.$next.on('click',$.proxy(self.next,self));
+
+                self.$wrap.appendTo(self.$element);
+
+                if (self.skins[self.options.skin]) {
+                    $.each(self.skins[self.options.skin],function(i,v) {
+                        self.components[v].init(self);
+                    });
+                } 
+
+                self.show(self.currentPage);
+
+                self.initiallizd = true;
+            },
+            calculate: function(current,total,adjacent) {
+                var omitLeft = 1,
+                    omitRight = 1;
+
+                if (current <= adjacent + 2) {
+                    omitLeft = 0;
+                }
+
+                if (current + adjacent + 2 >= total) {
+                    omitRight = 0;
+                }
+
+                return {
+                    left: omitLeft,
+                    right: omitRight
+                }
+            },
+        });
+        self.init(); 
     };
 
     Paginator.prototype = {
@@ -39,35 +87,6 @@
             'simple': ['info'],
         },
         components: {},
-
-        init: function() {
-            var self = this,
-                prev = '<li class="'+ this.namespace + '-prev' + '"><a href="#"></a></li>',
-                next = '<li class="'+ this.namespace + '-next' + '"><a href="#"></a></li>';
-
-            this.$wrap = $('<ul class="'+ this.namespace + '-basic' +'"></ul>');
-            this.$prev = $(prev).find('a').html(this.options.prevText).end().appendTo(this.$wrap);
-            this.$next = $(next).find('a').html(this.options.nextText).end().appendTo(this.$wrap); 
-
-            if (this.options.hideLists === false) {
-                this.components['lists'].init(self);
-            }
-                  
-            this.$prev.on('click',$.proxy(this.prev,this));
-            this.$next.on('click',$.proxy(this.next,this));
-
-            this.$wrap.appendTo(this.$element);
-
-            if (this.skins[this.options.skin]) {
-                $.each(this.skins[this.options.skin],function(i,v) {
-                    self.components[v].init(self);
-                });
-            } 
-
-            this.show(this.currentPage);
-
-            this.initiallizd = true;
-        },
         // argument page number
         show: function(page) {
             var page = Math.max(1,Math.min(page,this.totalPages));
@@ -98,24 +117,6 @@
             }
         },
 
-        calculate: function(current,total,adjacent) {
-            var omitLeft = 1,
-                omitRight = 1;
-
-            if (current <= adjacent + 2) {
-                omitLeft = 0;
-            }
-
-            if (current + adjacent + 2 >= total) {
-                omitRight = 0;
-            }
-
-            return {
-                left: omitLeft,
-                right: omitRight
-            }
-        },
-
         goTo: function(page) {
             this.show(page);
         },
@@ -130,7 +131,34 @@
             return false;
         },
         goFirst: function() {},
-        goLast: function() {}
+        goLast: function() {},
+        getCurrentPage: function(){
+            return this.currentPage;
+        },
+        getTotalPages: function(){
+            return this.totalPages;
+        },
+        hasPreviousPage: function(){
+            return this.currentPage > 1;
+        },
+        getPreviousPage: function(){
+            if (this.hasPreviousPage()) {
+                return this.currentPage - 1;
+            } else {
+                return false;
+            }
+        },
+        hasNextPage: function(){
+            return this.currentPage < this.totalPages;
+        },
+        getNextPage: function(){
+            if (this.hasNextPage()) {
+                return this.currentPage + 1;
+            } else {
+                return false;
+            }
+        }
+
     };
 
     Paginator.defaults = {

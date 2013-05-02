@@ -32,7 +32,7 @@ For the most basic implementation, follow the steps below:
 		<div class="jquery-paginator"><div>
 
 6.	Initialize Paginator on the file input. the first argument is the total pages get from your server , the second is options. 
-
+		
 		$(document).ready(function() {
 		    $(".jquery-paginator").paginator(100,{
 		        currentPage: 1,
@@ -57,6 +57,45 @@ For the most basic implementation, follow the steps below:
 7.	Add a link to the Paginator stylesheets in the head of the document.
 
 		<link rel="stylesheet" type="text/css" href="paginator.css" />
+
+8.	The final page should look like the following:
+
+		<!DOCTYPE html>
+		<html>
+		<head>
+		    <title>My Uploadify Implementation</title>
+		    <link rel="stylesheet" type="text/css" href="uploadify.css">
+		    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		    <script type="text/javascript" src="jquery.uploadify-3.1.min.js"></script>
+		    <script type="text/javascript">
+		    $(function() {
+		        $(document).ready(function() {
+				    $(".jquery-paginator").paginator(100,{
+				        currentPage: 1,
+				        numPerPage: 10,
+				        skin: 'skin-1',
+				        onShow: function(page) {
+				        	// here sets page link
+				            var url = '' + page;
+				            
+				            console.log('ajax request')
+				            $.ajax({
+				                url: url,
+				                dataType: 'json',
+				                success: function(data) {
+
+				                }
+				            })
+				        }
+				    });                         
+				});
+		    });
+		    </script>
+		</head>
+		<body>
+		<input type="file" name="file_upload" id="file_upload" />
+		</body>
+		</html>
 
 
 ### Documentation
