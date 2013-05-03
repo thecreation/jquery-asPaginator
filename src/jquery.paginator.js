@@ -8,87 +8,90 @@
 
 (function($) { 
 
-    var Paginator = $.paginator = function(paginator,totalPages,options) {
+    var Paginator = $.paginator = function(paginator,totalItems,options) {
 
         this.element = paginator;
-        this.$element = $(paginator).empty();    
-
-        this.currentPage = 1;
-        this.totalPages = totalPages;
-        this.initiallizd = false;
-
-        // if didn't provide a totalPages argument , pop up a alert and return    
-        if (typeof this.totalPages === 'undefined') {
-            alert('you need define a totalPages value !');
-            return;
-        }    
+        this.$element = $(paginator).empty(); 
 
         this.options = $.extend({},Paginator.defaults,options);
         this.namespace = this.options.namespace;
+
+        
+        this.currentPage = this.options.currentPage;
+        this.itemsPerPage = this.options.itemsPerPage;
+        this.totalItems = totalItems;
+        this.totalPages = this.getTotalPages();
+
+        if(this.isOutOfBounds()){
+            this.currentPage = this.totalPages;
+        }
+        
+        this.initiallizd = false;
+        
         this.components = $.extend(true,{},this.components);
 
         this.$element.addClass(this.namespace).addClass(this.options.skin);
-        var self = this;
 
-        $.extend(this, {
-            init: function() {
-                var
-                    prev = '<li class="'+ self.namespace + '-prev' + '"><a href="#"></a></li>',
-                    next = '<li class="'+ self.namespace + '-next' + '"><a href="#"></a></li>';
-
-                self.$wrap = $('<ul class="'+ self.namespace + '-basic' +'"></ul>');
-                self.$prev = $(prev).find('a').html(self.options.prevText).end().appendTo(self.$wrap);
-                self.$next = $(next).find('a').html(self.options.nextText).end().appendTo(self.$wrap); 
-
-                if (self.options.hideLists === false) {
-                    self.components['lists'].init(self);
-                }
-                      
-                self.$prev.on('click',$.proxy(self.prev,self));
-                self.$next.on('click',$.proxy(self.next,self));
-
-                self.$wrap.appendTo(self.$element);
-
-                if (self.skins[self.options.skin]) {
-                    $.each(self.skins[self.options.skin],function(i,v) {
-                        self.components[v].init(self);
-                    });
-                } 
-
-                self.show(self.currentPage);
-
-                self.initiallizd = true;
-            },
-            calculate: function(current,total,adjacent) {
-                var omitLeft = 1,
-                    omitRight = 1;
-
-                if (current <= adjacent + 2) {
-                    omitLeft = 0;
-                }
-
-                if (current + adjacent + 2 >= total) {
-                    omitRight = 0;
-                }
-
-                return {
-                    left: omitLeft,
-                    right: omitRight
-                }
-            },
-        });
-        self.init(); 
+        this.init(); 
     };
 
     Paginator.prototype = {
         constructor: Paginator,
-        skins: {
-            'skin-spring': ['goTo','info'],
-            'simple': ['info'],
-        },
         components: {},
+        skin: [],
+
+        // private function
+        // =================
+        init: function() {
+            var prev = '<li class="'+ self.namespace + '-prev' + '"><a href="#"></a></li>',
+                next = '<li class="'+ self.namespace + '-next' + '"><a href="#"></a></li>';
+
+            self.$wrap = $('<ul class="'+ self.namespace + '-basic' +'"></ul>');
+            self.$prev = $(prev).find('a').html(self.options.prevText).end().appendTo(self.$wrap);
+            self.$next = $(next).find('a').html(self.options.nextText).end().appendTo(self.$wrap); 
+
+            if (self.options.hideLists === false) {
+                self.components['lists'].init(self);
+            }
+                  
+            self.$prev.on('click',$.proxy(self.prev,self));
+            self.$next.on('click',$.proxy(self.next,self));
+
+            self.$wrap.appendTo(self.$element);
+
+            if (self.skins[self.options.skin]) {
+                $.each(self.skins[self.options.skin],function(i,v) {
+                    self.components[v].init(self);
+                });
+            } 
+
+            self.goTo(self.currentPage);
+
+            self.initiallizd = true;
+        },
+        calculate: function(current,total,adjacent) {
+            var omitLeft = 1,
+                omitRight = 1;
+
+            if (current <= adjacent + 2) {
+                omitLeft = 0;
+            }
+
+            if (current + adjacent + 2 >= total) {
+                omitRight = 0;
+            }
+
+            return {
+                left: omitLeft,
+                right: omitRight
+            }
+        },
+
+        // public function
+        // =================
+
         // argument page number
-        show: function(page) {
+        goTo: function(page) {
             var page = Math.max(1,Math.min(page,this.totalPages));
 
             // if true , dont relaod again    
@@ -112,26 +115,75 @@
             this.currentPage = page;
             this.$element.trigger('change',this);
             
-            if(typeof this.options.onShow === 'function') {
-                this.options.onShow.call(this,page);
+            if(typeof this.options.onChange === 'function') {
+                this.options.onChange.call(this,page);
             }
         },
-
-        goTo: function(page) {
-            this.show(page);
-        },
-
         prev: function() {
-            this.show(this.currentPage - 1);
+            if(this.hasPreviousPage()){
+                this.goTo(this.getPreviousPage());
+                return true;
+            }
+            
             return false;
         },
         next: function() {
-            console.log(this.currentPage);
-            this.show(this.currentPage + 1);
+            if(this.hasNextPage()){
+                this.goTo(this.getPreviousPage());
+                return true;
+            }
+            
             return false;
         },
-        goFirst: function() {},
-        goLast: function() {},
+        goFirst: function() {
+            return this.goTo(1);
+        },
+        goLast: function() {
+            return this.goTo(this.totalPages);
+        },
+        // update({totalItems: 10, itemsPerPage: 5, currentPage:3});
+        // update('totalPage', 10);
+        update: function(data, value){
+            var changes = {};
+
+            if(typeof data === "string"){
+                changes[data] = value;
+            } else {
+                changes = data;
+            }
+            for(var option in changes){
+                switch(option){
+                    case 'totalItems':
+                        this.totalItems = changes[option];
+                        break;
+                    case 'itemsPerPage':
+                        this.itemsPerPage = changes[option];
+                        break;
+                    case 'currentPage':
+                        this.currentPage = changes[option];
+                        break;
+                }
+            }
+
+            this.totalPages = this.totalPages();
+
+            // wait to do           
+        },
+        // Determin whether page number somebody requeset greater than total pages
+        isOutOfBounds: function(){
+            return this.currentPage > this.totalPages;
+        },
+        getItemsPerPage: function(){
+            return this.itemsPerPage;
+        },
+        getTotalItems: function() {
+            return this.totalItems;
+        },
+        getTotalPages: function() {
+            this.totalPages = Math.ceil( this.totalItems / this.itemsPerPage );
+            this.lastPage = this.totalPages;
+            return this.totalPages;
+        },
         getCurrentPage: function(){
             return this.currentPage;
         },
@@ -158,54 +210,50 @@
                 return false;
             }
         }
-
     };
 
     Paginator.defaults = {
+        namespace: 'paginator',
 
         prevText: 'prev',
         nextText: 'next',
-
-        hideLists: false,
-
-        namespace: 'paginator',
-
-        numPerPage: 10,
+        
+        currentPage: 1,
+        itemsPerPage: 10,
         adjacentNum: 3,
 
-        fix: false,
-        displayPages: 5,
-
-        skin: 'skin-2',
+        skin: 'simple',
 
         // callback function
-        onShow: null,
-
-        //components config -> object
-        lists: null, 
-        goTo: null,
-        info: null
+        onChange: null,
+        components: {
+            lists: null,
+            goTo: null,
+            info: null
+        }
     };
 
     Paginator.registerComponent = function(name,method) {
         Paginator.prototype.components[name] = method
     };
 
-    Paginator.registerSkin = function(name,method) {
-        Paginator.prototype.skins[name] = method
+    Paginator.registerSkin = function(name, components) {
+        Paginator.prototype.skins[name] = components;
     };
 
 
     Paginator.registerComponent('lists',{
         defaults: {
+            fix: true,
+            displayPages: 5,
             tpl: '<li><a href="#"></a></li>'
         },
         init: function(instance) {
-            var opts = $.extend({},this.defaults,instance.options.lists);
+            var opts = $.extend({}, this.defaults, instance.options.lists);
                 self = this;
 
             if (instance.options.fix === false) {
-                instance.$wrap.delegate('li','click',function(e){
+                instance.$wrap.delegate('li', 'click', function(e){
                     var page = $(e.target).parent().data('value');
 
                     if (page === undefined) {
@@ -221,13 +269,12 @@
                         return false;
                     }
 
-                    instance.show(page);
+                    instance.goTo(page);
                 });                  
                 instance.$element.on('change',function() {
                     self.render(instance);               
                 });
             } else {
-                
                 instance.$wrap.delegate('li','click',function(e) {
                     var page = $(e.target).parent().data('value');
                     if (page === undefined) {
@@ -237,7 +284,7 @@
                      if (page === '') {
                         return false;
                     }
-                    instance.show(page);
+                    instance.goTo(page);
                 });
                 instance.$element.on('change',function() {
                     self.fixRender(instance);
@@ -367,8 +414,7 @@
 
 
     // Collection method
-    $.fn.paginator = function(totalPages,options) {
-        
+    $.fn.paginator = function(totalItems, options) {
         if (typeof options === 'string') {
             var method = options;
             var method_arguments = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : undefined;
@@ -380,9 +426,13 @@
                 }
             });
         } else {
+            // if totalItems is not defined, the paginator is not initiallizd.
+            if (typeof totalItems === 'undefined') {
+                return this;
+            }
             return this.each(function() {
                 if (!$.data(this, 'paginator')) {
-                    $.data(this, 'paginator', new Paginator(this, totalPages,options));
+                    $.data(this, 'paginator', new Paginator(this, totalItems, options));
                 }
             });
         }

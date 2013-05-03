@@ -3,7 +3,8 @@
 Paginator was designed to make implementation as easy as possible. Before implementing, make sure you meet the minimum requirements.
 
 
-![paginator]()
+![image][]
+ [image]: https://raw.github.com/amazingSurge/jquery-paginator/master/demo/img/paginator.png
 
 ### Requirements
 - jQuery 1.4.x or greater
