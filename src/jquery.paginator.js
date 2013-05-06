@@ -17,7 +17,7 @@
         this.namespace = this.options.namespace;
 
         
-        this.currentPage = this.options.currentPage;
+        this.currentPage = this.options.currentPage || 1;
         this.itemsPerPage = this.options.itemsPerPage;
         this.totalItems = totalItems;
         this.totalPages = this.getTotalPages();
@@ -50,25 +50,19 @@
             self.$prev = $(prev).find('a').html(self.options.prevText).end().appendTo(self.$wrap);
             self.$next = $(next).find('a').html(self.options.nextText).end().appendTo(self.$wrap); 
 
-            if (self.options.hideLists === false) {
-                self.components['lists'].init(self);
-            }
                   
             self.$prev.on('click',$.proxy(self.prev,self));
             self.$next.on('click',$.proxy(self.next,self));
 
             self.$wrap.appendTo(self.$element);
 
-            // if (self.skins[self.options.skin]) {
-            //     $.each(self.skins[self.options.skin],function(i,v) {
-            //         self.components[v].init(self);
-            //     });
-            // } 
-
             $.each(this.options.components, function(key,value) {
-                if (value != null || value != false) {
-                     self.components[key].init(self);
+
+                if (value === null || value === false) {
+                    return false;
                 }
+
+                self.components[key].init(self);
             });
 
             self.goTo(self.currentPage);
@@ -113,7 +107,6 @@
             } 
 
             if (page === 1) {
-                console.log('page===1')
                 this.$prev.addClass(this.namespace + '-disable');
             }
 
@@ -135,7 +128,7 @@
         },
         next: function() {
             if(this.hasNextPage()){
-                this.goTo(this.getPreviousPage());
+                this.goTo(this.getNextPage());
                 return true;
             }
             
@@ -193,9 +186,6 @@
         getCurrentPage: function(){
             return this.currentPage;
         },
-        getTotalPages: function(){
-            return this.totalPages;
-        },
         hasPreviousPage: function(){
             return this.currentPage > 1;
         },
@@ -244,7 +234,7 @@
 
     Paginator.registerComponent('lists',{
         defaults: {
-            fix: true,
+            fix: false,
             displayPages: 5,
             tpl: '<li><a href="#"></a></li>'
         },
@@ -259,7 +249,7 @@
                     var page = $(e.target).parent().data('value');
 
                     if (page === undefined) {
-                        console.log("wrong page value");
+                        console.log("wrong page value or prev&&next");
                         return
                     }
 
@@ -341,7 +331,7 @@
         fixRender: function(instance) {
             var current = instance.currentPage,
                 overflow,
-                count = instance.options.displayPages,
+                count = this.opts.displayPages - 1,
                 list = ''; 
 
 
@@ -362,7 +352,7 @@
 
             list +=  '<li class="paginator-active" data-value="'+ current +'"><a href="#">'+ current +'</a></li>';
 
-            for (var i = current + 1,limit = i + count - 1 > instance.totalPages ? instance.totalPages : i+count-1; i<= limit;i++) {
+            for (var i = current + 1,limit = i + count - 1 > instance.totalPages ? instance.totalPages : i+count-1; i<= limit; i++) {
                 list +=  '<li data-value="'+ i +'"><a href="#">'+ i +'</a></li>';
             }
 
@@ -389,7 +379,7 @@
 
                 //here need to ensure the page a right input
 
-                instance.show(page);
+                instance.goTo(page);
             });
             // instance.$element.on('change.paginator',function() {
             //     $input.val('');

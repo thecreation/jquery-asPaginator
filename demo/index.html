@@ -65,7 +65,7 @@ $(".custom").paginator(100);
                         $("#custom").paginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
-                            skin: 'skin-1',
+                            style: 'skin-1',
                             onShow: function(page) {
                                 var url = '' + page;
                                 
@@ -89,7 +89,10 @@ $(".custom").paginator(100);
                         $("#skin-2").paginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
-                            skin: 'skin-2',
+                            style: 'skin-2',
+                            components: {
+                                lists: false
+                            },
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
@@ -112,7 +115,7 @@ $(".custom").paginator(100);
                         $("#skin-3").paginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
-                            skin: 'skin-3',
+                            style: 'skin-3',
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
@@ -135,7 +138,7 @@ $(".custom").paginator(100);
                         $("#skin-4").paginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
-                            skin: 'skin-4',
+                            style: 'skin-4',
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
@@ -161,7 +164,7 @@ $(".custom").paginator(100);
                             hideLists: true,
                             prevText:  '<< prev',
                             nextText: 'next >>',
-                            skin: 'skin-5',
+                            style: 'skin-5',
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
@@ -187,7 +190,7 @@ $(".custom").paginator(100);
                             hideLists: true,
                             prevText:  '← prev',
                             nextText: 'next →',
-                            skin: 'skin-6',
+                            style: 'skin-6',
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
@@ -217,9 +220,12 @@ $(".custom").paginator(100,{fix:true});
                     $(document).ready(function() {
                         $("#custom-1").paginator(100,{
                             currentPage: 1,
-                            numPerPage: 10,
-                            fix: true,
-                            skin: 'skin-1',
+                            style: 'skin-1',
+                            components: {
+                                lists: {
+                                    fix: true
+                                }
+                            },
                             onShow: function(page) {
                                 var url = '' + page;
                                 
@@ -242,9 +248,12 @@ $(".custom").paginator(100,{fix:true});
                     $(document).ready(function() {
                         $("#fix-skin-2").paginator(100,{
                             currentPage: 1,
-                            numPerPage: 10,
-                            fix: true,
-                            skin: 'skin-2',
+                            style: 'skin-2',
+                            components: {
+                                lists: {
+                                    fix: true
+                                }
+                            },
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
@@ -266,9 +275,12 @@ $(".custom").paginator(100,{fix:true});
                     $(document).ready(function() {
                         $("#fix-skin-3").paginator(100,{
                             currentPage: 1,
-                            numPerPage: 10,
-                            fix: true,
-                            skin: 'skin-3',
+                            style: 'skin-3',
+                            components: {
+                                lists: {
+                                    fix: true
+                                }
+                            },
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
@@ -290,9 +302,12 @@ $(".custom").paginator(100,{fix:true});
                     $(document).ready(function() {
                         $("#fix-skin-4").paginator(100,{
                             currentPage: 1,
-                            numPerPage: 10,
-                            fix: true,
-                            skin: 'skin-4',
+                            style: 'skin-4',
+                            components: {
+                                lists: {
+                                    fix: true
+                                }
+                            },
                             onShow: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
