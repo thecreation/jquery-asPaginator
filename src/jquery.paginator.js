@@ -25,12 +25,12 @@
         if(this.isOutOfBounds()){
             this.currentPage = this.totalPages;
         }
-        
+
         this.initiallizd = false;
         
         this.components = $.extend(true,{},this.components);
 
-        this.$element.addClass(this.namespace).addClass(this.options.skin);
+        this.$element.addClass(this.namespace).addClass(this.options.style);
 
         this.init(); 
     };
@@ -38,12 +38,12 @@
     Paginator.prototype = {
         constructor: Paginator,
         components: {},
-        skin: [],
 
         // private function
         // =================
         init: function() {
-            var prev = '<li class="'+ self.namespace + '-prev' + '"><a href="#"></a></li>',
+            var self = this;
+                prev = '<li class="'+ self.namespace + '-prev' + '"><a href="#"></a></li>',
                 next = '<li class="'+ self.namespace + '-next' + '"><a href="#"></a></li>';
 
             self.$wrap = $('<ul class="'+ self.namespace + '-basic' +'"></ul>');
@@ -59,11 +59,17 @@
 
             self.$wrap.appendTo(self.$element);
 
-            if (self.skins[self.options.skin]) {
-                $.each(self.skins[self.options.skin],function(i,v) {
-                    self.components[v].init(self);
-                });
-            } 
+            // if (self.skins[self.options.skin]) {
+            //     $.each(self.skins[self.options.skin],function(i,v) {
+            //         self.components[v].init(self);
+            //     });
+            // } 
+
+            $.each(this.options.components, function(key,value) {
+                if (value != null || value != false) {
+                     self.components[key].init(self);
+                }
+            });
 
             self.goTo(self.currentPage);
 
@@ -222,25 +228,19 @@
         itemsPerPage: 10,
         adjacentNum: 3,
 
-        skin: 'simple',
+        style: 'simple',
 
         // callback function
         onChange: null,
+
         components: {
-            lists: null,
-            goTo: null,
-            info: null
+            lists: true
         }
     };
 
     Paginator.registerComponent = function(name,method) {
         Paginator.prototype.components[name] = method
     };
-
-    Paginator.registerSkin = function(name, components) {
-        Paginator.prototype.skins[name] = components;
-    };
-
 
     Paginator.registerComponent('lists',{
         defaults: {
@@ -249,10 +249,12 @@
             tpl: '<li><a href="#"></a></li>'
         },
         init: function(instance) {
-            var opts = $.extend({}, this.defaults, instance.options.lists);
+            var opts = $.extend({}, this.defaults, instance.options.components.lists);
                 self = this;
 
-            if (instance.options.fix === false) {
+            this.opts = opts;
+
+            if (opts.fix === false) {
                 instance.$wrap.delegate('li', 'click', function(e){
                     var page = $(e.target).parent().data('value');
 
@@ -375,7 +377,7 @@
             text: 'Go'
         },
         init: function(instance) {
-            var opts = $.extend({},this.defaults,instance.options.goTo);
+            var opts = $.extend({},this.defaults,instance.options.components.goTo);
 
             $goTo = $(opts.tpl);
             $input = $goTo.find('input');
@@ -400,7 +402,7 @@
             tpl: '<div class="paginator-info"><span class="paginator-current"></span>/<span class="paginator-total"></span></div>'
         },
         init: function(instance) {
-            var opts = $.extend({},this.defaults,instance.options.info);
+            var opts = $.extend({},this.defaults,instance.options.components.info);
 
             $info = $(opts.tpl);
             $current = $info.find('.paginator-current');
