@@ -434,11 +434,3 @@
     };
 
 }(jQuery));
-
-
-var obj = {
-    init: function() {},
-    add: function() {
-        this.init();
-    }
-}
