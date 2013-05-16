@@ -6,8 +6,9 @@ Paginator was designed to make implementation as easy as possible. Before implem
 ![image][]
  [image]: https://raw.github.com/amazingSurge/jquery-paginator/master/demo/img/paginator.png
 
-### Requirements
-- jQuery 1.4.x or greater
+### Compatibility
+- Requires jQuery 1.7+
+- Tested in Firefox, Chrome, Safari, IE8+ 
 
 ### Implementation
 
