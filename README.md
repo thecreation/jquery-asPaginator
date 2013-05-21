@@ -33,12 +33,12 @@ For the most basic implementation, follow the steps below:
 
 		<div class="jquery-paginator"><div>
 
-6.	Initialize Paginator on the file input. the first argument is the total pages get from your server , the second is options. 
+6.	Initialize Paginator on the file input. the first argument is the total records get from your server , the second is options. 
 		
 		$(document).ready(function() {
 		    $(".jquery-paginator").paginator(100,{
 		        currentPage: 1,
-		        numPerPage: 10,
+		        itemsPerPage: 10,
 		        skin: 'skin-1',
 		        onShow: function(page) {
 		        	// here sets page link
