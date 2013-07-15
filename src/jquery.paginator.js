@@ -16,7 +16,6 @@
         this.options = $.extend({}, Paginator.defaults, options);
         this.namespace = this.options.namespace;
 
-
         this.currentPage = this.options.currentPage || 1;
         this.itemsPerPage = this.options.itemsPerPage;
         this.totalItems = totalItems;
@@ -27,10 +26,8 @@
         }
 
         this.initiallizd = false;
-
         this.components = $.extend(true, {}, this.components);
-
-        this.$element.addClass(this.namespace).addClass(this.options.style);
+        this.$element.addClass(this.namespace).addClass(this.namespace + '-' + this.options.skin);
 
         this.init();
     };
@@ -39,8 +36,6 @@
         constructor: Paginator,
         components: {},
 
-        // private function
-        // =================
         init: function() {
             var self = this;
             prev = '<li class="' + self.namespace + '-prev' + '"><a href="#"></a></li>',
@@ -87,10 +82,10 @@
             }
         },
 
-        // public function
-        // =================
+        /*
+            Public Method
+         */
 
-        // argument page number
         goTo: function(page) {
             var page = Math.max(1, Math.min(page, this.totalPages));
 
@@ -99,15 +94,15 @@
                 return false;
             }
 
-            this.$next.add(this.$prev).removeClass(this.namespace + '-disable');
+            this.$next.add(this.$prev).removeClass(this.namespace + '_disable');
 
             // when add class when go to the first one or the last one
             if (page === this.totalPages) {
-                this.$next.addClass(this.namespace + '-disable');
+                this.$next.addClass(this.namespace + '_disable');
             }
 
             if (page === 1) {
-                this.$prev.addClass(this.namespace + '-disable');
+                this.$prev.addClass(this.namespace + '_disable');
             }
 
             // here change current page first, and then trigger 'change' event
@@ -168,7 +163,6 @@
 
             // wait to do           
         },
-        // Determin whether page number somebody requeset greater than total pages
         isOutOfBounds: function() {
             return this.currentPage > this.totalPages;
         },
@@ -218,7 +212,7 @@
         itemsPerPage: 10,
         adjacentNum: 3,
 
-        style: 'simple',
+        skin: 'simple',
 
         // callback function
         onChange: null,
@@ -229,7 +223,7 @@
     };
 
     Paginator.registerComponent = function(name, method) {
-        Paginator.prototype.components[name] = method
+        Paginator.prototype.components[name] = method;
     };
 
     Paginator.registerComponent('lists', {
@@ -264,7 +258,6 @@
                     instance.goTo(page);
                 });
                 instance.$element.on('change', function() {
-                    console.dir(self.render)
                     self.render(instance);
                 });
             } else {
@@ -297,19 +290,19 @@
                 for (var i = 1; i <= current - 1; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
-                list += '<li class="paginator-active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
+                list += '<li class="'+instance.namespace+'_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
             } else {
                 for (var i = 1; i <= 2; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="paginator-omit" data-value="omit"><a href="#">...</a></li>';
+                list += '<li class="'+instance.namespace+'-omit" data-value="omit"><a href="#">...</a></li>';
 
                 for (var i = current - adjacent; i <= current - 1; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="paginator-active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
+                list += '<li class="'+instance.namespace+'_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
             }
 
             if (omit.right === 0) {
@@ -321,7 +314,7 @@
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="paginator-omit" data-value="omit"><a href="#">...</a></li>';
+                list += '<li class="'+instance.namespace+'-omit" data-value="omit"><a href="#">...</a></li>';
 
                 for (var i = max - 1; i <= max; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
@@ -338,11 +331,11 @@
                 list = '';
 
 
-            var array = instance.$wrap.find('li').removeClass('paginator-active');
+            var array = instance.$wrap.find('li').removeClass(instance.namespace+'_active');
             $.each(array, function(i, v) {
 
                 if ($(v).data('value') === current) {
-                    $(v).addClass('paginator-active');
+                    $(v).addClass(instance.namespace+'_active');
                     overflow = false;
                     return false;
                 }
@@ -353,7 +346,7 @@
             }
 
 
-            list += '<li class="paginator-active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
+            list += '<li class="'+instance.namespace+'_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
 
             for (var i = current + 1, limit = i + count - 1 > instance.totalPages ? instance.totalPages : i + count - 1; i <= limit; i++) {
                 list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
@@ -366,7 +359,7 @@
 
     Paginator.registerComponent('goTo', {
         defaults: {
-            tpl: '<div class="paginator-goto"><input type="text" /><span></span></div>',
+            tpl: '<div class="'+instance.namespace+'-goto"><input type="text" /><span></span></div>',
             text: 'Go'
         },
         init: function(instance) {
@@ -392,14 +385,14 @@
 
     Paginator.registerComponent('info', {
         defaults: {
-            tpl: '<div class="paginator-info"><span class="paginator-current"></span>/<span class="paginator-total"></span></div>'
+            tpl: '<div class="'+ instance.namespace +'-info"><span class="'+instance.namespace+'-current"></span>/<span class="'+instance.namespace+'-total"></span></div>'
         },
         init: function(instance) {
             var opts = $.extend({}, this.defaults, instance.options.components.info);
 
             $info = $(opts.tpl);
-            $current = $info.find('.paginator-current');
-            $total = $info.find('.paginator-total').text(instance.totalPages);
+            $current = $info.find('.'+instance.namespace+'_current');
+            $total = $info.find('.'+instance.namespace+'-total').text(instance.totalPages);
 
             instance.$element.append($info).on('change.paginator', function() {
                 $current.text(instance.currentPage);
