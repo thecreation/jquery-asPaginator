@@ -37,9 +37,9 @@
         components: {},
 
         init: function() {
-            var self = this;
-            prev = '<li class="' + self.namespace + '-prev' + '"><button></button></li>',
-            next = '<li class="' + self.namespace + '-next' + '"><button></button></li>';
+            var self = this,
+                prev = '<li class="' + self.namespace + '-prev' + '"><button></button></li>',
+                next = '<li class="' + self.namespace + '-next' + '"><button></button></li>';
 
             self.$wrap = $('<ul class="' + self.namespace + '-basic' + '"></ul>');
             self.$prev = $(prev).find('button').html(self.options.prevText).end().appendTo(self.$wrap);
