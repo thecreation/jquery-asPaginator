@@ -27,7 +27,7 @@
 
         this.initiallizd = false;
         this.components = $.extend(true, {}, this.components);
-        this.$element.addClass(this.namespace).addClass(this.namespace + '-' + this.options.skin);
+        this.$element.addClass(this.namespace).addClass(this.options.skin);
 
         this.init();
     };
@@ -38,12 +38,12 @@
 
         init: function() {
             var self = this;
-            prev = '<li class="' + self.namespace + '-prev' + '"><a href="#"></a></li>',
-            next = '<li class="' + self.namespace + '-next' + '"><a href="#"></a></li>';
+            prev = '<li class="' + self.namespace + '-prev' + '"><button></button></li>',
+            next = '<li class="' + self.namespace + '-next' + '"><button></button></li>';
 
             self.$wrap = $('<ul class="' + self.namespace + '-basic' + '"></ul>');
-            self.$prev = $(prev).find('a').html(self.options.prevText).end().appendTo(self.$wrap);
-            self.$next = $(next).find('a').html(self.options.nextText).end().appendTo(self.$wrap);
+            self.$prev = $(prev).find('button').html(self.options.prevText).end().appendTo(self.$wrap);
+            self.$next = $(next).find('button').html(self.options.nextText).end().appendTo(self.$wrap);
 
 
             self.$prev.on('click', $.proxy(self.prev, self));
@@ -290,19 +290,19 @@
                 for (var i = 1; i <= current - 1; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
-                list += '<li class="'+instance.namespace+'_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
+                list += '<li class="' + instance.namespace + '_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
             } else {
                 for (var i = 1; i <= 2; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="'+instance.namespace+'-omit" data-value="omit"><a href="#">...</a></li>';
+                list += '<li class="' + instance.namespace + '-omit" data-value="omit"><a href="#">...</a></li>';
 
                 for (var i = current - adjacent; i <= current - 1; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="'+instance.namespace+'_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
+                list += '<li class="' + instance.namespace + '_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
             }
 
             if (omit.right === 0) {
@@ -314,7 +314,7 @@
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="'+instance.namespace+'-omit" data-value="omit"><a href="#">...</a></li>';
+                list += '<li class="' + instance.namespace + '-omit" data-value="omit"><a href="#">...</a></li>';
 
                 for (var i = max - 1; i <= max; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
@@ -331,11 +331,11 @@
                 list = '';
 
 
-            var array = instance.$wrap.find('li').removeClass(instance.namespace+'_active');
+            var array = instance.$wrap.find('li').removeClass(instance.namespace + '_active');
             $.each(array, function(i, v) {
 
                 if ($(v).data('value') === current) {
-                    $(v).addClass(instance.namespace+'_active');
+                    $(v).addClass(instance.namespace + '_active');
                     overflow = false;
                     return false;
                 }
@@ -345,8 +345,7 @@
                 return
             }
 
-
-            list += '<li class="'+instance.namespace+'_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
+            list += '<li class="' + instance.namespace + '_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
 
             for (var i = current + 1, limit = i + count - 1 > instance.totalPages ? instance.totalPages : i + count - 1; i <= limit; i++) {
                 list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
@@ -359,40 +358,28 @@
 
     Paginator.registerComponent('goTo', {
         defaults: {
-            tpl: '<div class="'+instance.namespace+'-goto"><input type="text" /><span></span></div>',
             text: 'Go'
         },
         init: function(instance) {
-            var opts = $.extend({}, this.defaults, instance.options.components.goTo);
-
-            $goTo = $(opts.tpl);
-            $input = $goTo.find('input');
-            $span = $goTo.find('span').text(opts.text);
+            var opts = $.extend({}, this.defaults, instance.options.components.goTo),
+                $goTo= $('<div class="' + instance.namespace + '-goto"><input type="text" /><span></span></div>'),
+                $input = $goTo.find('input'),
+                $span = $goTo.find('span').text(opts.text);
 
             instance.$element.append($goTo);
             $span.on('click', function() {
-                var page = $input.val();
-
-                //here need to ensure the page a right input
-
+                var page = parseInt($input.val());
                 instance.goTo(page);
             });
-            // instance.$element.on('change.paginator',function() {
-            //     $input.val('');
-            // });
         }
     });
 
     Paginator.registerComponent('info', {
-        defaults: {
-            tpl: '<div class="'+ instance.namespace +'-info"><span class="'+instance.namespace+'-current"></span>/<span class="'+instance.namespace+'-total"></span></div>'
-        },
         init: function(instance) {
-            var opts = $.extend({}, this.defaults, instance.options.components.info);
-
-            $info = $(opts.tpl);
-            $current = $info.find('.'+instance.namespace+'_current');
-            $total = $info.find('.'+instance.namespace+'-total').text(instance.totalPages);
+            var opts = $.extend({}, this.defaults, instance.options.components.info),
+                $info = $('<div class="' + instance.namespace + '-info"><span class="' + instance.namespace + '-current"></span>/<span class="' + instance.namespace + '-total"></span></div>'),
+                $current = $info.find('.' + instance.namespace + '_current'),
+                $total = $info.find('.' + instance.namespace + '-total').text(instance.totalPages);
 
             instance.$element.append($info).on('change.paginator', function() {
                 $current.text(instance.currentPage);
