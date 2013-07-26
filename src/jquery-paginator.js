@@ -2,8 +2,8 @@
  * paginator
  * https://github.com/amazingSurge/paginator
  *
- * Copyright (c) 2013 joeylin
- * Licensed under the MIT license.
+ * Copyright (c) 2013 amazingSurge
+ * Licensed under the GPL license.
  */
 
 (function($) {
@@ -215,7 +215,6 @@
 
         // callback function
         onChange: null,
-
         components: {
             lists: true
         }

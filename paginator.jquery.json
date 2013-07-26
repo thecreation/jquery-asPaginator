@@ -1,0 +1,24 @@
+{
+  "name": "paginator",
+  "title": "jQuery paginator",
+  "description": "a jquery paginator",
+  "version": "0.1.1",
+  "author": {
+    "name": "amazingSurge",
+    "email": "amazingSurge@yahoo.com",
+    "url": "amazingSurge.com"
+  },
+  "bugs": "https://github.com/amazingSurge/jquery-paginator/issues",
+  "licenses": [
+    {
+      "type": "GPL",
+      "url": "https://github.com/amazingSurge/jquery-paginator/blob/master/LICENSE-GPL"
+    }
+  ],
+  "bugs": "https://github.com/amazingSurge/jquery-paginator/issues",
+  "homepage": "https://github.com/amazingSurge/jquery-paginator",
+  "docs": "https://github.com/amazingSurge/jquery-paginator",
+  "dependencies": {
+    "jquery": ">= 1.8.3"
+  }
+}

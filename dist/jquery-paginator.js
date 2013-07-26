@@ -1,6 +1,6 @@
-/*! Paginator - v0.1.0 - 2013-07-23
+/*! Paginator - v0.1.0 - 2013-07-26
 * https://github.com/amazingSurge/jquery-paginator
-* Copyright (c) 2013 joeylin; Licensed MIT */
+* Copyright (c) 2013 amazingSurge; Licensed GPL */
 (function($) {
 
     var Paginator = $.paginator = function(paginator, totalItems, options) {
@@ -210,7 +210,6 @@
 
         // callback function
         onChange: null,
-
         components: {
             lists: true
         }
