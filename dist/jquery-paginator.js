@@ -1,6 +1,6 @@
-/*! Paginator - v0.1.0 - 2013-07-26
+/*! Paginator - v0.1.0 - 2014-01-07
 * https://github.com/amazingSurge/jquery-paginator
-* Copyright (c) 2013 amazingSurge; Licensed GPL */
+* Copyright (c) 2014 amazingSurge; Licensed GPL */
 (function($) {
 
     var Paginator = $.paginator = function(paginator, totalItems, options) {
@@ -22,8 +22,13 @@
 
         this.initiallizd = false;
         this.components = $.extend(true, {}, this.components);
-        this.$element.addClass(this.namespace).addClass(this.options.skin);
+        this.$element.addClass(this.namespace);
 
+        if (this.options.skin) {
+            this.$element.addClass(this.namespace + '_' + this.options.skin);
+        }
+
+        this.trigger('init');
         this.init();
     };
 
@@ -33,12 +38,12 @@
 
         init: function() {
             var self = this,
-                prev = '<li class="' + self.namespace + '-prev' + '"><button></button></li>',
-                next = '<li class="' + self.namespace + '-next' + '"><button></button></li>';
+                prev = '<li class="' + self.namespace + '-prev' + '"><a></a></li>',
+                next = '<li class="' + self.namespace + '-next' + '"><a></a></li>';
 
             self.$wrap = $('<ul class="' + self.namespace + '-basic' + '"></ul>');
-            self.$prev = $(prev).find('button').html(self.options.prevText).end().appendTo(self.$wrap);
-            self.$next = $(next).find('button').html(self.options.nextText).end().appendTo(self.$wrap);
+            self.$prev = $(prev).find('a').html(self.options.prevText).end().appendTo(self.$wrap);
+            self.$next = $(next).find('a').html(self.options.nextText).end().appendTo(self.$wrap);
 
 
             self.$prev.on('click', $.proxy(self.prev, self));
@@ -57,6 +62,8 @@
             self.goTo(self.currentPage);
 
             self.initiallizd = true;
+
+            this.trigger('ready');
         },
         calculate: function(current, total, adjacent) {
             var omitLeft = 1,
@@ -73,6 +80,20 @@
             return {
                 left: omitLeft,
                 right: omitRight
+            }
+        },
+        trigger: function(eventType) {
+            this.$element.trigger(this.namespace + '::' + eventType, this);
+
+            eventType = eventType.replace(/\b\w+\b/g, function(word){
+                return word.substring(0,1).toUpperCase() + word.substring(1);
+            });
+
+            var onFunction = 'on' + eventType;
+            var method_arguments = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : undefined;
+            
+            if (typeof this.options[onFunction] === 'function') {
+                this.options[onFunction].apply(this, method_arguments);
             }
         },
 
@@ -101,11 +122,8 @@
 
             // here change current page first, and then trigger 'change' event
             this.currentPage = page;
-            this.$element.trigger('change', this);
-
-            if (typeof this.options.onChange === 'function') {
-                this.options.onChange.call(this, page);
-            }
+            
+            this.trigger('change',page);
         },
         prev: function() {
             if (this.hasPreviousPage()) {
@@ -206,13 +224,16 @@
         itemsPerPage: 10,
         adjacentNum: 3,
 
-        skin: 'simple',
-
-        // callback function
-        onChange: null,
+        skin: null,
         components: {
             lists: true
-        }
+        },
+
+        // callback function
+        onInit: null,
+        onReady: null,
+        onChange: null
+        
     };
 
     Paginator.registerComponent = function(name, method) {
@@ -250,7 +271,7 @@
 
                     instance.goTo(page);
                 });
-                instance.$element.on('change', function() {
+                instance.$element.on('paginator::change', function() {
                     self.render(instance);
                 });
             } else {
@@ -267,7 +288,7 @@
 
                     return false;
                 });
-                instance.$element.on('change', function() {
+                instance.$element.on('paginator::change', function() {
                     self.fixRender(instance);
                 });
             }
@@ -289,7 +310,7 @@
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="' + instance.namespace + '-omit" data-value="omit"><a href="#">...</a></li>';
+                list += '<li class="' + instance.namespace + '_omit" data-value="omit"><a href="#">...</a></li>';
 
                 for (var i = current - adjacent; i <= current - 1; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
@@ -307,7 +328,7 @@
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
-                list += '<li class="' + instance.namespace + '-omit" data-value="omit"><a href="#">...</a></li>';
+                list += '<li class="' + instance.namespace + '_omit" data-value="omit"><a href="#">...</a></li>';
 
                 for (var i = max - 1; i <= max; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
