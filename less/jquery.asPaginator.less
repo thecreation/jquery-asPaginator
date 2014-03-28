@@ -33,7 +33,7 @@ body > ul > li {
     margin: 10px 30px;
     list-style: none;
 }
-.paginator {
+.asPaginator {
     overflow: hidden;
     li {
         float: left;
@@ -66,7 +66,7 @@ body > ul > li {
 
 @paginatorSkin1ActiveBgColor: @paginatorSkin1BgColor;
 //===============================================
-.paginator.paginator_skin-1 {
+.asPaginator.asPaginator-1 {
         li {
                 margin: 0;
                 font-family: Arial;
@@ -84,7 +84,7 @@ body > ul > li {
                         }
                 }
         }
-        .paginator_active {
+        .asPaginator_active {
                 background-color: @paginatorSkin1ActiveBgColor;
                 .border-radius (5px,5px,5px,5px);
                 a {
@@ -95,7 +95,7 @@ body > ul > li {
                         color: @paginatorSkin1ActiveHoverFontColor;
                 }
         }
-        .paginator_disable {
+        .asPaginator_disable {
                 a {
                         color: @paginatorSkin1DisableFontColor;
                         cursor: default;
@@ -107,7 +107,7 @@ body > ul > li {
                         }
                 }
         }
-        .paginator_omit {
+        .asPaginator_omit {
                 cursor: default;
                 &:hover {
                 background-color: transparent;
@@ -151,7 +151,7 @@ body > ul > li {
 @paginatorSkin2DisableFontColor: fade(darken(@paginatorSkin2StateColor,100%),20%);
 @paginatorSkin2DisableHoverFontColor: @paginatorSkin2DisableFontColor;
 //===============================================
-.paginator.paginator_skin-2 {
+.asPaginator.asPaginator_skin-2 {
         li {
                 margin: 0;
                 font-family: Arial;
@@ -171,10 +171,10 @@ body > ul > li {
                         color: @paginatorSkin2ListsHoverFontColor;
                 }
         }
-        .paginator-prev,.paginator-next {
+        .asPaginator-prev,.asPaginator-next {
                 .box-shadow (inset 1px,1px,0,0,@paginatorSkin2ArrowBoxShadowColor);
         }
-        .paginator-prev {
+        .asPaginator-prev {
                 border-right: 1px solid @paginatorSkin2ArrowPrevBdRightColor;
                 border-left: 1px solid @paginatorSkin2ArrowPrevBdLeftColor;
                 .border-radius (25px,0,0,25px);
@@ -182,14 +182,14 @@ body > ul > li {
                         color: @paginatorSkin2ArrowPrevFontColor;
                 }
         }
-        .paginator-next {
+        .asPaginator-next {
                 border-right: 1px solid @paginatorSkin2ArrowNextBdRightColor;
                 .border-radius (0,25px,25px,0);
                 a {
                         color: @paginatorSkin2ArrowNextFontColor;
                 }
         }
-        .paginator_active {
+        .asPaginator {
                 background-color: @paginatorSkin2ActiveBgColor;
                 background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjMiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
                 .background-vertical (@paginatorSkin2ActiveBgFirstColor,@paginatorSkin2ActiveBgLastColor);
@@ -202,7 +202,7 @@ body > ul > li {
                         color: @paginatorSkin2ActiveHoverFontColor;
                 }
         }
-        .paginator_disable {
+        .asPaginator_disable {
                 a {
                         color: @paginatorSkin2DisableFontColor;
                         cursor: default;
@@ -211,7 +211,7 @@ body > ul > li {
                         color: @paginatorSkin2DisableHoverFontColor;
                 }
         }
-        .paginator_omit {
+        .asPaginator_omit {
                 a {
                         cursor: default;
                 }
@@ -247,7 +247,7 @@ body > ul > li {
 @paginatorSkin3DisableFontColor: fade(darken(@paginatorSkin3StateColor,100%),20%);
 @paginatorSkin3DisableHoverFontColor: @paginatorSkin3DisableFontColor;
 //===============================================
-.paginator.paginator_skin-3 {
+.asPaginator.asPaginator-3 {
         li {
                 margin: 0;
                 font-family: Arial;
@@ -263,13 +263,13 @@ body > ul > li {
                         color: @paginatorSkin3ListsHoverFontColor;
                 }
         }
-        .paginator-prev {
+        .asPaginator-prev {
                 border-left: 1px solid @paginatorSkin3ArrowPrevBdLeftColor;
         }
-        .paginator-next {
+        .asPaginator-next {
                 border-right: 1px solid @paginatorSkin3ArrowNextBdRightColor;
         }
-        .paginator_active {
+        .asPaginator_active {
                 margin: 0;
                 font-size: 14px;
                 background-color: @paginatorSkin3ActiveBgColor;
@@ -283,7 +283,7 @@ body > ul > li {
                         color: @paginatorSkin3ActiveHoverFontColor;
                 }
         }
-        .paginator_disable {
+        .asPaginator_disable {
                 a {
                         color: @paginatorSkin3DisableFontColor;
                         cursor: default;
@@ -292,7 +292,7 @@ body > ul > li {
                         color: @paginatorSkin3DisableHoverFontColor;
                 }
         }
-        .paginator_omit {
+        .asPaginator_omit {
                 a {
                         cursor: default;
                 }
@@ -328,7 +328,7 @@ body > ul > li {
 @paginatorSkin4DisableFontColor: fade(darken(@paginatorSkin4StateColor,100%),20%);;
 @paginatorSkin4DisableHoverFontColor: @paginatorSkin4DisableFontColor;
 //===============================================
-.paginator.paginator_skin-4 {
+.asPaginator.asPaginator_skin-4 {
         li {
                 margin: 0;
                 font-family: Arial;
@@ -345,13 +345,13 @@ body > ul > li {
                         color: @paginatorSkin4ListsHoverFontColor;
                 }
         }
-        .paginator-prev,.paginator-next {
+        .asPaginator-prev,.asPaginator-next {
                 border: 1px solid @paginatorSkin4ArrowBdColor;
         }
-        .paginator-next {
+        .asPaginator-next {
                 border-left: none;
         }
-        .paginator_active {
+        .asPaginator_active {
                 margin: 0 0 0 -1px;
                 font-size: 14px;
                 background-color: @paginatorSkin4ActiveBgColor;
@@ -365,7 +365,7 @@ body > ul > li {
                         color: @paginatorSkin4ActiveHoverFontColor;
                 }
         }
-        .paginator_disable {
+        .asPaginator_disable {
                 a {
                         color: @paginatorSkin4DisableFontColor;
                         cursor: default;
@@ -374,7 +374,7 @@ body > ul > li {
                         color: @paginatorSkin4DisableHoverFontColor;
                 }
         }
-        .paginator_omit {
+        .asPaginator_omit {
                 a {
                         cursor: default;
                 }
@@ -399,7 +399,7 @@ body > ul > li {
 @paginatorSkin5ListsBdColor: darken(@paginatorSkin5BgColor,40.5%);
 @paginatorSkin5ListsHoverBgColor: darken(@paginatorSkin5BgColor,6.8%);
 //===============================================
-.paginator.paginator_skin-5 {
+.asPaginator.asPaginator_skin-5 {
         li {
                 margin: 0 5px;
                 font-family: Arial;
@@ -438,7 +438,7 @@ body > ul > li {
 @paginatorSkin6ListsHoverBgColor: @paginatorSkin6StateColor;
 @paginatorSkin6ListsHoverBdColor: @paginatorSkin6StateColor;
 //===============================================
-.paginator.paginator_skin-6 {
+.asPaginator.asPaginator_skin-6 {
         li {
                 margin: 0 5px;
                 font-family: Arial;

@@ -1,35 +1,33 @@
 {
-  "name": "jquery-paginator",
-  "title": "Paginator",
-  "description": "a jquery paginator",
-  "version": "0.1.0",
-  "homepage": "https://github.com/amazingSurge/jquery-paginator",
-  "author": {
-    "name": "amazingSurge",
-    "email": "amazingSurge@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/amazingSurge/jquery-paginator.git"
-  },
-  "bugs": "https://github.com/amazingSurge/jquery-paginator/issues",
-  "licenses": [
-    {
-      "type": "GPL",
-      "url": "https://github.com/amazingSurge/jquery-paginator/blob/master/LICENSE-GPL"
+    "name": "jquery-asPaginator",
+    "title": "asPaginator",
+    "description": "a jquery asPaginator",
+    "version": "0.1.0",
+    "homepage": "https://github.com/amazingSurge/jquery-asPaginator",
+    "author": {
+        "name": "amazingSurge",
+        "email": "amazingSurge@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/amazingSurge/jquery-asPaginator.git"
+    },
+    "bugs": "https://github.com/amazingSurge/jquery-asPaginator/issues",
+    "licenses": [{
+        "type": "GPL",
+        "url": "https://github.com/amazingSurge/jquery-asPaginator/blob/master/LICENSE-GPL"
+    }],
+    "devDependencies": {
+        "grunt-contrib-jshint": "~0.1.1",
+        "grunt-contrib-concat": "~0.1.2",
+        "grunt-contrib-uglify": "~0.1.1",
+        "grunt-contrib-watch": "~0.2.0",
+        "grunt-contrib-clean": "~0.4.0",
+        "grunt": "~0.4.1",
+        "grunt-jsbeautifier": "~0.1.6",
+        "grunt-recess": "~0.3.1"
+    },
+    "dependencies": {
+        "grunt-text-replace": "~0.3.6"
     }
-  ],
-  "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-concat": "~0.1.2",
-    "grunt-contrib-uglify": "~0.1.1",
-    "grunt-contrib-watch": "~0.2.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt": "~0.4.1",
-    "grunt-jsbeautifier": "~0.1.6",
-    "grunt-recess": "~0.3.1"
-  },
-  "dependencies": {
-    "grunt-text-replace": "~0.3.6"
-  }
 }

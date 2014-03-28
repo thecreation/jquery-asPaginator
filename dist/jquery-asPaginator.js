@@ -1,14 +1,14 @@
-/*! Paginator - v0.1.0 - 2014-01-07
-* https://github.com/amazingSurge/jquery-paginator
+/*! asPaginator - v0.1.0 - 2014-03-28
+* https://github.com/amazingSurge/jquery-asPaginator
 * Copyright (c) 2014 amazingSurge; Licensed GPL */
 (function($) {
 
-    var Paginator = $.paginator = function(paginator, totalItems, options) {
+    var AsPaginator = $.paginator = function(paginator, totalItems, options) {
 
         this.element = paginator;
         this.$element = $(paginator).empty();
 
-        this.options = $.extend({}, Paginator.defaults, options);
+        this.options = $.extend({}, AsPaginator.defaults, options);
         this.namespace = this.options.namespace;
 
         this.currentPage = this.options.currentPage || 1;
@@ -20,7 +20,7 @@
             this.currentPage = this.totalPages;
         }
 
-        this.initiallizd = false;
+        this.initialized = false;
         this.components = $.extend(true, {}, this.components);
         this.$element.addClass(this.namespace);
 
@@ -32,8 +32,8 @@
         this.init();
     };
 
-    Paginator.prototype = {
-        constructor: Paginator,
+    AsPaginator.prototype = {
+        constructor: AsPaginator,
         components: {},
 
         init: function() {
@@ -45,9 +45,8 @@
             self.$prev = $(prev).find('a').html(self.options.prevText).end().appendTo(self.$wrap);
             self.$next = $(next).find('a').html(self.options.nextText).end().appendTo(self.$wrap);
 
-
-            self.$prev.on('click', $.proxy(self.prev, self));
-            self.$next.on('click', $.proxy(self.next, self));
+            self.$prev.on('click.asPaginator', $.proxy(self.prev, self));
+            self.$next.on('click.asPaginator', $.proxy(self.next, self));
 
             self.$wrap.appendTo(self.$element);
 
@@ -61,8 +60,7 @@
 
             self.goTo(self.currentPage);
 
-            self.initiallizd = true;
-
+            self.initialized = true;
             this.trigger('ready');
         },
         calculate: function(current, total, adjacent) {
@@ -80,18 +78,16 @@
             return {
                 left: omitLeft,
                 right: omitRight
-            }
+            };
         },
         trigger: function(eventType) {
-            this.$element.trigger(this.namespace + '::' + eventType, this);
-
-            eventType = eventType.replace(/\b\w+\b/g, function(word){
-                return word.substring(0,1).toUpperCase() + word.substring(1);
+            this.$element.trigger('asPaginator::' + eventType, this);
+            eventType = eventType.replace(/\b\w+\b/g, function(word) {
+                return word.substring(0, 1).toUpperCase() + word.substring(1);
             });
-
             var onFunction = 'on' + eventType;
             var method_arguments = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : undefined;
-            
+
             if (typeof this.options[onFunction] === 'function') {
                 this.options[onFunction].apply(this, method_arguments);
             }
@@ -105,7 +101,7 @@
             var page = Math.max(1, Math.min(page, this.totalPages));
 
             // if true , dont relaod again    
-            if (page === this.currentPage && this.initiallizd === true) {
+            if (page === this.currentPage && this.initialized === true) {
                 return false;
             }
 
@@ -122,8 +118,11 @@
 
             // here change current page first, and then trigger 'change' event
             this.currentPage = page;
-            
-            this.trigger('change',page);
+
+            if (this.initialized) {
+                this.trigger('change', page);
+            }
+
         },
         prev: function() {
             if (this.hasPreviousPage()) {
@@ -214,8 +213,8 @@
         }
     };
 
-    Paginator.defaults = {
-        namespace: 'paginator',
+    AsPaginator.defaults = {
+        namespace: 'asPaginator',
 
         prevText: 'prev',
         nextText: 'next',
@@ -232,15 +231,14 @@
         // callback function
         onInit: null,
         onReady: null,
-        onChange: null
-        
+        onChange: null // function(page) {}
     };
 
-    Paginator.registerComponent = function(name, method) {
-        Paginator.prototype.components[name] = method;
+    AsPaginator.registerComponent = function(name, method) {
+        AsPaginator.prototype.components[name] = method;
     };
 
-    Paginator.registerComponent('lists', {
+    AsPaginator.registerComponent('lists', {
         defaults: {
             fix: false,
             displayPages: 5,
@@ -271,7 +269,8 @@
 
                     instance.goTo(page);
                 });
-                instance.$element.on('paginator::change', function() {
+                self.render(instance);
+                instance.$element.on('asPaginator::change', function() {
                     self.render(instance);
                 });
             } else {
@@ -288,7 +287,8 @@
 
                     return false;
                 });
-                instance.$element.on('paginator::change', function() {
+                self.fixRender(instance);
+                instance.$element.on('asPaginator::change', function() {
                     self.fixRender(instance);
                 });
             }
@@ -356,7 +356,7 @@
             });
 
             if (overflow === false) {
-                return
+                return;
             }
 
             list += '<li class="' + instance.namespace + '_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
@@ -370,13 +370,13 @@
         }
     });
 
-    Paginator.registerComponent('goTo', {
+    AsPaginator.registerComponent('goTo', {
         defaults: {
             text: 'Go'
         },
         init: function(instance) {
             var opts = $.extend({}, this.defaults, instance.options.components.goTo),
-                $goTo= $('<div class="' + instance.namespace + '-goto"><input type="text" /><span></span></div>'),
+                $goTo = $('<div class="' + instance.namespace + '-goto"><input type="text" /><span></span></div>'),
                 $input = $goTo.find('input'),
                 $span = $goTo.find('span').text(opts.text);
 
@@ -388,40 +388,40 @@
         }
     });
 
-    Paginator.registerComponent('info', {
+    AsPaginator.registerComponent('info', {
         init: function(instance) {
             var opts = $.extend({}, this.defaults, instance.options.components.info),
                 $info = $('<div class="' + instance.namespace + '-info"><span class="' + instance.namespace + '-current"></span>/<span class="' + instance.namespace + '-total"></span></div>'),
                 $current = $info.find('.' + instance.namespace + '_current'),
                 $total = $info.find('.' + instance.namespace + '-total').text(instance.totalPages);
 
-            instance.$element.append($info).on('change.paginator', function() {
+            $current.text(instance.currentPage);
+            instance.$element.append($info).on('asPaginator::change', function() {
                 $current.text(instance.currentPage);
             });
         }
     });
 
-
     // Collection method
-    $.fn.paginator = function(totalItems, options) {
+    $.fn.asPaginator = function(totalItems, options) {
         if (typeof options === 'string') {
             var method = options;
             var method_arguments = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : undefined;
 
             return this.each(function() {
-                var api = $.data(this, 'paginator');
+                var api = $.data(this, 'asPaginator');
                 if (typeof api[method] === 'function') {
                     api[method].apply(api, method_arguments);
                 }
             });
         } else {
-            // if totalItems is not defined, the paginator is not initiallizd.
+            // if totalItems is not defined, the asPaginator is not initialized.
             if (typeof totalItems === 'undefined') {
                 return this;
             }
             return this.each(function() {
-                if (!$.data(this, 'paginator')) {
-                    $.data(this, 'paginator', new Paginator(this, totalItems, options));
+                if (!$.data(this, 'asPaginator')) {
+                    $.data(this, 'asPaginator', new AsPaginator(this, totalItems, options));
                 }
             });
         }

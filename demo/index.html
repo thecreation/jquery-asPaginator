@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Paginator</title>
+        <title>AsPaginator</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -14,14 +14,14 @@
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/prism.css">
         <link rel="stylesheet" href="css/main.css">       
-        <link rel="stylesheet" href="css/paginator.css">
+        <link rel="stylesheet" href="css/asPaginator.css">
 
 
         <script src="js/vendor/jquery-1.9.1.min.js"></script>
         <script src="js/vendor/jquery.toc.js"></script>
         <script src="js/vendor/prism.js"></script>
         <script src="js/vendor/bootstrap.js"></script>
-        <script src="../src/jquery-paginator.js"></script>
+        <script src="../src/jquery-asPaginator.js"></script>
         <style type="text/css">
             #paginator-content {
                 height: 100px;
@@ -45,7 +45,7 @@
         
 options.components > skin.components > default.components
 
-Paginator.registerSkin('skin-1',{
+AsPaginator.registerSkin('skin-1',{
     lists: {},
     info: {}
 });
@@ -55,30 +55,21 @@ Paginator.registerSkin('skin-1',{
         <section>
             <h4>Default</h4>
             <pre class="has-example"><code class="language-javascript">
-$(".custom").paginator(100);
+$(".custom").asPaginator(100);
             </code></pre>
             <div class="example">
                 <div id="custom"></div>
-                
+                <div class="page-detail"><span></span>/<span></spam></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#custom").paginator(100,{
+                        $("#custom").asPaginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
                             skin: 'skin-1',
-                            onShow: function(page) {
-                                var url = '' + page;
-                                
-                                console.log('ajax request')
-                                $.ajax({
-                                    url: url,
-                                    dataType: 'json',
-                                    success: function(data) {
+                            
+                        });
 
-                                    }
-                                })
-                            }
-                        });                         
+
                     });
                 </script>
             </div>
@@ -86,14 +77,14 @@ $(".custom").paginator(100);
                 <div id="skin-2"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#skin-2").paginator(100,{
+                        $("#skin-2").asPaginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
                             skin: 'skin-2',
                             components: {
                                 lists: false
                             },
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({
@@ -112,11 +103,11 @@ $(".custom").paginator(100);
                 <div id="skin-3"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#skin-3").paginator(100,{
+                        $("#skin-3").asPaginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
                             skin: 'skin-3',
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({
@@ -135,11 +126,11 @@ $(".custom").paginator(100);
                 <div id="skin-4"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#skin-4").paginator(100,{
+                        $("#skin-4").asPaginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
                             skin: 'skin-4',
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({
@@ -158,14 +149,14 @@ $(".custom").paginator(100);
                 <div id="skin-5"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#skin-5").paginator(100,{
+                        $("#skin-5").asPaginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
                             hideLists: true,
                             prevText:  '<< prev',
                             nextText: 'next >>',
                             skin: 'skin-5',
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({
@@ -184,14 +175,14 @@ $(".custom").paginator(100);
                 <div id="skin-6"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#skin-6").paginator(100,{
+                        $("#skin-6").asPaginator(100,{
                             currentPage: 1,
                             numPerPage: 10,
                             hideLists: true,
                             prevText:  '← prev',
                             nextText: 'next →',
                             skin: 'skin-6',
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({
@@ -211,14 +202,14 @@ $(".custom").paginator(100);
         <section>
             <h4>Fix</h4>
             <pre class="has-example"><code class="language-javascript">
-$(".custom").paginator(100,{fix:true});
+$(".custom").asPaginator(100,{fix:true});
             </code></pre>
             <div class="example">
                 <div id="custom-1"></div>
                 
                 <script>                   
                     $(document).ready(function() {
-                        $("#custom-1").paginator(100,{
+                        $("#custom-1").asPaginator(100,{
                             currentPage: 1,
                             skin: 'skin-1',
                             components: {
@@ -226,7 +217,7 @@ $(".custom").paginator(100,{fix:true});
                                     fix: true
                                 }
                             },
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 
                                 console.log('ajax request')
@@ -246,7 +237,7 @@ $(".custom").paginator(100,{fix:true});
                 <div id="fix-skin-2"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#fix-skin-2").paginator(100,{
+                        $("#fix-skin-2").asPaginator(100,{
                             currentPage: 1,
                             skin: 'skin-2',
                             components: {
@@ -254,7 +245,7 @@ $(".custom").paginator(100,{fix:true});
                                     fix: true
                                 }
                             },
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({
@@ -273,7 +264,7 @@ $(".custom").paginator(100,{fix:true});
                 <div id="fix-skin-3"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#fix-skin-3").paginator(100,{
+                        $("#fix-skin-3").asPaginator(100,{
                             currentPage: 1,
                             skin: 'skin-3',
                             components: {
@@ -281,7 +272,7 @@ $(".custom").paginator(100,{fix:true});
                                     fix: true
                                 }
                             },
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({
@@ -300,7 +291,7 @@ $(".custom").paginator(100,{fix:true});
                 <div id="fix-skin-4"></div>
                 <script>                   
                     $(document).ready(function() {
-                        $("#fix-skin-4").paginator(100,{
+                        $("#fix-skin-4").asPaginator(100,{
                             currentPage: 1,
                             skin: 'skin-4',
                             components: {
@@ -308,7 +299,7 @@ $(".custom").paginator(100,{fix:true});
                                     fix: true
                                 }
                             },
-                            onShow: function(page) {
+                            onChange: function(page) {
                                 var url = '' + page;
                                 console.log('ajax request')
                                 $.ajax({

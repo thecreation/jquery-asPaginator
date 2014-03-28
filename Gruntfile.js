@@ -93,7 +93,7 @@ module.exports = function(grunt) {
                     compile: true
                 },
                 files: {
-                    'demo/css/paginator.css': ['less/paginator.less']
+                    'demo/css/asPaginator.css': ['less/jquery.asPaginator.less']
                 }
             }
         },
