@@ -1,4 +1,4 @@
-/*! asPaginator - v0.1.0 - 2014-03-28
+/*! asPaginator - v0.1.0 - 2014-05-13
 * https://github.com/amazingSurge/jquery-asPaginator
 * Copyright (c) 2014 amazingSurge; Licensed GPL */
 (function($) {
@@ -28,7 +28,7 @@
             this.$element.addClass(this.namespace + '_' + this.options.skin);
         }
 
-        this.trigger('init');
+        this._trigger('init');
         this.init();
     };
 
@@ -61,7 +61,7 @@
             self.goTo(self.currentPage);
 
             self.initialized = true;
-            this.trigger('ready');
+            this._trigger('ready');
         },
         calculate: function(current, total, adjacent) {
             var omitLeft = 1,
@@ -80,8 +80,9 @@
                 right: omitRight
             };
         },
-        trigger: function(eventType) {
+        _trigger: function(eventType) {
             this.$element.trigger('asPaginator::' + eventType, this);
+            this.$element.trigger(eventType + '.asPaginator', this);
             eventType = eventType.replace(/\b\w+\b/g, function(word) {
                 return word.substring(0, 1).toUpperCase() + word.substring(1);
             });
@@ -120,7 +121,7 @@
             this.currentPage = page;
 
             if (this.initialized) {
-                this.trigger('change', page);
+                this._trigger('change', page);
             }
 
         },
