@@ -10,18 +10,15 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">      
+        <link rel="stylesheet" href="../css/asPaginator.css">
 
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/prism.css">
-        <link rel="stylesheet" href="css/main.css">       
-        <link rel="stylesheet" href="css/asPaginator.css">
-
-
-        <script src="js/vendor/jquery-1.9.1.min.js"></script>
-        <script src="js/vendor/jquery.toc.js"></script>
-        <script src="js/vendor/prism.js"></script>
-        <script src="js/vendor/bootstrap.js"></script>
+        <script src="../libs/jquery/jquery.js"></script>
+        <script src="js/jquery.toc.js"></script>
+        <script src="js/prism.js"></script>
         <script src="../src/jquery-asPaginator.js"></script>
+
         <style type="text/css">
             #paginator-content {
                 height: 100px;
@@ -316,26 +313,13 @@ $(".custom").asPaginator(100,{fix:true});
             </div>
 
         </section>
-
-        <div id="content">
-
-        </div>
-
-        
-        
-
     </section>
-    
-      
-        
-        
-    
 </div>
 
 <script>
 (function(){
     $('#toc').toc();
-    })();
+})();
 </script>
 </body>
 </html>

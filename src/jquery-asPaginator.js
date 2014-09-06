@@ -1,14 +1,14 @@
 /*
- * paginator
- * https://github.com/amazingSurge/paginator
+ * asPaginator
+ * https://github.com/amazingSurge/asPaginator
  *
- * Copyright (c) 2013 amazingSurge
+ * Copyright (c) 2014 amazingSurge
  * Licensed under the GPL license.
  */
-
 (function($) {
+    "use strict";
 
-    var AsPaginator = $.paginator = function(paginator, totalItems, options) {
+    var AsPaginator = function(paginator, totalItems, options) {
 
         this.element = paginator;
         this.$element = $(paginator).empty();
@@ -86,25 +86,23 @@
             };
         },
         _trigger: function(eventType) {
-            this.$element.trigger('asPaginator::' + eventType, this);
-            this.$element.trigger(eventType + '.asPaginator', this);
+            var method_arguments = Array.prototype.slice.call(arguments, 1),
+                data = [this].concat(method_arguments);
+
+            // event
+            this.$element.trigger('asPaginator::' + eventType, data);
+
+            // callback
             eventType = eventType.replace(/\b\w+\b/g, function(word) {
                 return word.substring(0, 1).toUpperCase() + word.substring(1);
             });
             var onFunction = 'on' + eventType;
-            var method_arguments = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : undefined;
-
             if (typeof this.options[onFunction] === 'function') {
                 this.options[onFunction].apply(this, method_arguments);
             }
         },
-
-        /*
-            Public Method
-         */
-
         goTo: function(page) {
-            var page = Math.max(1, Math.min(page, this.totalPages));
+            page = Math.max(1, Math.min(page, this.totalPages));
 
             // if true , dont relaod again    
             if (page === this.currentPage && this.initialized === true) {
@@ -128,7 +126,6 @@
             if (this.initialized) {
                 this._trigger('change', page);
             }
-
         },
         prev: function() {
             if (this.hasPreviousPage()) {
@@ -304,21 +301,22 @@
                 max = instance.totalPages,
                 adjacent = instance.options.adjacentNum,
                 omit = instance.calculate(current, max, adjacent),
-                list = '';
+                list = '',
+                i;
 
             if (omit.left === 0) {
-                for (var i = 1; i <= current - 1; i++) {
+                for (i = 1; i <= current - 1; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
                 list += '<li class="' + instance.namespace + '_active" data-value="' + current + '"><a href="#">' + current + '</a></li>';
             } else {
-                for (var i = 1; i <= 2; i++) {
+                for (i = 1; i <= 2; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
                 list += '<li class="' + instance.namespace + '_omit" data-value="omit"><a href="#">...</a></li>';
 
-                for (var i = current - adjacent; i <= current - 1; i++) {
+                for (i = current - adjacent; i <= current - 1; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
@@ -326,17 +324,17 @@
             }
 
             if (omit.right === 0) {
-                for (var i = current + 1; i <= max; i++) {
+                for (i = current + 1; i <= max; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
             } else {
-                for (var i = current + 1; i <= current + adjacent; i++) {
+                for (i = current + 1; i <= current + adjacent; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
 
                 list += '<li class="' + instance.namespace + '_omit" data-value="omit"><a href="#">...</a></li>';
 
-                for (var i = max - 1; i <= max; i++) {
+                for (i = max - 1; i <= max; i++) {
                     list += '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
                 }
             }
@@ -388,7 +386,7 @@
 
             instance.$element.append($goTo);
             $span.on('click', function() {
-                var page = parseInt($input.val());
+                var page = parseInt($input.val(), 10);
                 instance.goTo(page);
             });
         }
@@ -412,7 +410,7 @@
     $.fn.asPaginator = function(totalItems, options) {
         if (typeof options === 'string') {
             var method = options;
-            var method_arguments = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : undefined;
+            var method_arguments = Array.prototype.slice.call(arguments, 1);
 
             return this.each(function() {
                 var api = $.data(this, 'asPaginator');

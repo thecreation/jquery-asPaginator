@@ -7,7 +7,7 @@ asPaginator was designed to make implementation as easy as possible. Before impl
  [image]: https://raw.github.com/amazingSurge/jquery-asPaginator/master/demo/img/asPaginator.png
 
 ### Compatibility
-- Requires jQuery 1.7+
+- Requires jQuery 1.83+
 - Tested in Firefox, Chrome, Safari, IE8+ 
 
 ### Implementation
@@ -98,13 +98,3 @@ For the most basic implementation, follow the steps below:
 		<input type="file" name="file_upload" id="file_upload" />
 		</body>
 		</html>
-
-
-### Documentation
-_(Coming soon)_
-
-### License MIT
-_(Coming soon)_
-
-### Release History
-_(Nothing yet)_
