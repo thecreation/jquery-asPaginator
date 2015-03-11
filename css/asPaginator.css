@@ -20,47 +20,47 @@ body > ul > li {
   text-decoration: none;
   text-transform: capitalize;
 }
-.asPaginator.asPaginator-1 li {
+.asPaginator.asPaginator_skin-1 li {
   margin: 0;
   font-family: Arial;
   font-size: 14px;
 }
-.asPaginator.asPaginator-1 li a {
+.asPaginator.asPaginator_skin-1 li a {
   padding: 5px 9px;
   color: #666666;
 }
-.asPaginator.asPaginator-1 li:hover {
+.asPaginator.asPaginator_skin-1 li:hover {
   background-color: #725e73;
   border-radius: 5px 5px 5px 5px;
 }
-.asPaginator.asPaginator-1 li:hover a {
+.asPaginator.asPaginator_skin-1 li:hover a {
   color: #ffffff;
 }
-.asPaginator.asPaginator-1 .asPaginator_active {
+.asPaginator.asPaginator_skin-1 .asPaginator_active {
   background-color: #725e73;
   border-radius: 5px 5px 5px 5px;
 }
-.asPaginator.asPaginator-1 .asPaginator_active a {
+.asPaginator.asPaginator_skin-1 .asPaginator_active a {
   color: #ffffff;
   cursor: default;
 }
-.asPaginator.asPaginator-1 .asPaginator_active:hover a {
+.asPaginator.asPaginator_skin-1 .asPaginator_active:hover a {
   color: #ffffff;
 }
-.asPaginator.asPaginator-1 .asPaginator_disable a {
+.asPaginator.asPaginator_skin-1 .asPaginator_disable a {
   color: #999999;
   cursor: default;
 }
-.asPaginator.asPaginator-1 .asPaginator_disable:hover {
+.asPaginator.asPaginator_skin-1 .asPaginator_disable:hover {
   background-color: transparent;
 }
-.asPaginator.asPaginator-1 .asPaginator_disable:hover a {
+.asPaginator.asPaginator_skin-1 .asPaginator_disable:hover a {
   color: #999999;
 }
-.asPaginator.asPaginator-1 .asPaginator_omit {
+.asPaginator.asPaginator_skin-1 .asPaginator_omit {
   cursor: default;
 }
-.asPaginator.asPaginator-1 .asPaginator_omit:hover {
+.asPaginator.asPaginator_skin-1 .asPaginator_omit:hover {
   background-color: transparent;
 }
 .asPaginator.asPaginator_skin-2 li {
@@ -87,22 +87,21 @@ body > ul > li {
 .asPaginator.asPaginator_skin-2 li:hover a {
   color: #5984c0;
 }
+.asPaginator.asPaginator_skin-2 li:first-child {
+  border-left: 1px solid #d8d8d8;
+  border-radius: 25px 0 0 25px;
+}
+.asPaginator.asPaginator_skin-2 li:last-child {
+  border-right: 1px solid #dddddd;
+  border-radius: 0 25px 25px 0;
+}
 .asPaginator.asPaginator_skin-2 .asPaginator-prev,
 .asPaginator.asPaginator_skin-2 .asPaginator-next {
   -webkit-box-shadow: inset 1px 1px 0 0 #ffffff;
   box-shadow: inset 1px 1px 0 0 #ffffff;
 }
-.asPaginator.asPaginator_skin-2 .asPaginator-prev {
-  border-right: 1px solid #e0e0e0;
-  border-left: 1px solid #d8d8d8;
-  border-radius: 25px 0 0 25px;
-}
 .asPaginator.asPaginator_skin-2 .asPaginator-prev a {
   color: #8d8d8d;
-}
-.asPaginator.asPaginator_skin-2 .asPaginator-next {
-  border-right: 1px solid #dddddd;
-  border-radius: 0 25px 25px 0;
 }
 .asPaginator.asPaginator_skin-2 .asPaginator-next a {
   color: #8d8d8d;
@@ -138,7 +137,7 @@ body > ul > li {
 .asPaginator.asPaginator_skin-2 .asPaginator_omit:hover a {
   color: #666666;
 }
-.asPaginator.asPaginator-3 li {
+.asPaginator.asPaginator_skin-3 li {
   margin: 0;
   font-family: Arial;
   font-size: 14px;
@@ -146,45 +145,47 @@ body > ul > li {
   border-top: 1px solid #e6e6e6;
   border-bottom: 1px solid #e6e6e6;
 }
-.asPaginator.asPaginator-3 li a {
+.asPaginator.asPaginator_skin-3 li a {
   padding: 6px 10px;
   color: #666666;
 }
-.asPaginator.asPaginator-3 li:hover a {
+.asPaginator.asPaginator_skin-3 li:hover a {
   color: #c79a9e;
 }
-.asPaginator.asPaginator-3 .asPaginator-prev {
+.asPaginator.asPaginator_skin-3 .asPaginator-first,
+.asPaginator.asPaginator_skin-3 .asPaginator-prev {
   border-left: 1px solid #e6e6e6;
 }
-.asPaginator.asPaginator-3 .asPaginator-next {
+.asPaginator.asPaginator_skin-3 .asPaginator-last,
+.asPaginator.asPaginator_skin-3 .asPaginator-next {
   border-right: 1px solid #e6e6e6;
 }
-.asPaginator.asPaginator-3 .asPaginator_active {
+.asPaginator.asPaginator_skin-3 .asPaginator_active {
   margin: 0;
   font-size: 14px;
   background-color: #ffffff;
   -webkit-box-shadow: inset 0 -2px 0 0 #bd878c;
   box-shadow: inset 0 -2px 0 0 #bd878c;
 }
-.asPaginator.asPaginator-3 .asPaginator_active a {
+.asPaginator.asPaginator_skin-3 .asPaginator_active a {
   padding: 6px 10px;
   color: #bd878c;
   cursor: default;
 }
-.asPaginator.asPaginator-3 .asPaginator_active:hover a {
+.asPaginator.asPaginator_skin-3 .asPaginator_active:hover a {
   color: #bd878c;
 }
-.asPaginator.asPaginator-3 .asPaginator_disable a {
+.asPaginator.asPaginator_skin-3 .asPaginator_disable a {
   color: rgba(0, 0, 0, 0.2);
   cursor: default;
 }
-.asPaginator.asPaginator-3 .asPaginator_disable:hover a {
+.asPaginator.asPaginator_skin-3 .asPaginator_disable:hover a {
   color: rgba(0, 0, 0, 0.2);
 }
-.asPaginator.asPaginator-3 .asPaginator_omit a {
+.asPaginator.asPaginator_skin-3 .asPaginator_omit a {
   cursor: default;
 }
-.asPaginator.asPaginator-3 .asPaginator_omit:hover a {
+.asPaginator.asPaginator_skin-3 .asPaginator_omit:hover a {
   color: #666666;
 }
 .asPaginator.asPaginator_skin-4 li {
@@ -203,12 +204,8 @@ body > ul > li {
 .asPaginator.asPaginator_skin-4 li:hover a {
   color: #ff755a;
 }
-.asPaginator.asPaginator_skin-4 .asPaginator-prev,
-.asPaginator.asPaginator_skin-4 .asPaginator-next {
-  border: 1px solid #c9c9c9;
-}
-.asPaginator.asPaginator_skin-4 .asPaginator-next {
-  border-left: none;
+.asPaginator.asPaginator_skin-4 li:first-child {
+  border-left: 1px solid #c9c9c9;
 }
 .asPaginator.asPaginator_skin-4 .asPaginator_active {
   margin: 0 0 0 -1px;

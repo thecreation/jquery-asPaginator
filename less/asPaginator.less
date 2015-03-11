@@ -66,7 +66,7 @@ body > ul > li {
 
 @paginatorSkin1ActiveBgColor: @paginatorSkin1BgColor;
 //===============================================
-.asPaginator.asPaginator-1 {
+.asPaginator.asPaginator_skin-1 {
         li {
                 margin: 0;
                 font-family: Arial;
@@ -137,9 +137,8 @@ body > ul > li {
 @paginatorSkin2ListsBdBottomColor: darken(@paginatorSkin2BgColor,21.5%);
 @paginatorSkin2ListsBoxShadowColor: @paginatorSkin2BgColor;
 @paginatorSkin2ArrowBoxShadowColor: @paginatorSkin2BgColor;
-@paginatorSkin2ArrowPrevBdRightColor: @paginatorSkin2ListsBdRightColor;
-@paginatorSkin2ArrowPrevBdLeftColor: darken(@paginatorSkin2BgColor,15.2%);
-@paginatorSkin2ArrowNextBdRightColor: darken(@paginatorSkin2BgColor,13.5%);
+@paginatorSkin2ArrowFirstBdLeftColor: darken(@paginatorSkin2BgColor,15.2%);
+@paginatorSkin2ArrowLastBdRightColor: darken(@paginatorSkin2BgColor,13.5%);
 
 @paginatorSkin2ListsHoverFontColor: @paginatorSkin2StateColor;
 @paginatorSkin2ActiveFontColor: lighten(@paginatorSkin2StateColor,100%);
@@ -170,21 +169,26 @@ body > ul > li {
                 &:hover a {
                         color: @paginatorSkin2ListsHoverFontColor;
                 }
+
+                &:first-child {
+                    border-left: 1px solid @paginatorSkin2ArrowFirstBdLeftColor;
+                    .border-radius (25px,0,0,25px);
+                }
+
+                &:last-child {
+                    border-right: 1px solid @paginatorSkin2ArrowLastBdRightColor;
+                    .border-radius (0,25px,25px,0);
+                }
         }
         .asPaginator-prev,.asPaginator-next {
                 .box-shadow (inset 1px,1px,0,0,@paginatorSkin2ArrowBoxShadowColor);
         }
         .asPaginator-prev {
-                border-right: 1px solid @paginatorSkin2ArrowPrevBdRightColor;
-                border-left: 1px solid @paginatorSkin2ArrowPrevBdLeftColor;
-                .border-radius (25px,0,0,25px);
                 a {
                         color: @paginatorSkin2ArrowPrevFontColor;
                 }
         }
         .asPaginator-next {
-                border-right: 1px solid @paginatorSkin2ArrowNextBdRightColor;
-                .border-radius (0,25px,25px,0);
                 a {
                         color: @paginatorSkin2ArrowNextFontColor;
                 }
@@ -247,7 +251,7 @@ body > ul > li {
 @paginatorSkin3DisableFontColor: fade(darken(@paginatorSkin3StateColor,100%),20%);
 @paginatorSkin3DisableHoverFontColor: @paginatorSkin3DisableFontColor;
 //===============================================
-.asPaginator.asPaginator-3 {
+.asPaginator.asPaginator_skin-3 {
         li {
                 margin: 0;
                 font-family: Arial;
@@ -263,9 +267,11 @@ body > ul > li {
                         color: @paginatorSkin3ListsHoverFontColor;
                 }
         }
+        .asPaginator-first,
         .asPaginator-prev {
                 border-left: 1px solid @paginatorSkin3ArrowPrevBdLeftColor;
         }
+        .asPaginator-last,
         .asPaginator-next {
                 border-right: 1px solid @paginatorSkin3ArrowNextBdRightColor;
         }
@@ -344,12 +350,10 @@ body > ul > li {
                 &:hover a {
                         color: @paginatorSkin4ListsHoverFontColor;
                 }
-        }
-        .asPaginator-prev,.asPaginator-next {
-                border: 1px solid @paginatorSkin4ArrowBdColor;
-        }
-        .asPaginator-next {
-                border-left: none;
+
+                &:first-child {
+                    border-left: 1px solid @paginatorSkin4ArrowBdColor;
+                }
         }
         .asPaginator_active {
                 margin: 0 0 0 -1px;
