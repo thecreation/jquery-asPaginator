@@ -78,12 +78,11 @@
                         <script>                   
                             $(document).ready(function() {
                                 $("#custom").asPaginator(200,{
-                                    currentPage: 8,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    currentPage: 1,
+                                    visibleNum: {
+                                        0: 2,
+                                        960: 3,
+                                        1280: 5
                                     },
                                     skin: 'skin-1',
                                     
@@ -124,11 +123,10 @@
                             $(document).ready(function() {
                                 $("#skin-3").asPaginator(200,{
                                     currentPage: 8,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        960: 3,
+                                        1280: 5
                                     },
                                     skin: 'skin-3',
                                     onChange: function(page) {
@@ -152,11 +150,10 @@
                             $(document).ready(function() {
                                 $("#skin-4").asPaginator(200,{
                                     currentPage: 8,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        960: 3,
+                                        1280: 5
                                     },
                                     skin: 'skin-4',
                                     onChange: function(page) {
@@ -180,11 +177,10 @@
                             $(document).ready(function() {
                                 $("#skin-5").asPaginator(200,{
                                     currentPage: 8,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        960: 3,
+                                        1280: 5
                                     },
                                     skin: 'skin-5',
                                     onChange: function(page) {
@@ -208,11 +204,10 @@
                             $(document).ready(function() {
                                 $("#skin-6").asPaginator(200,{
                                     currentPage: 8,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        960: 3,
+                                        1280: 5
                                     },
                                     skin: 'skin-6',
                                     onChange: function(page) {
@@ -236,18 +231,21 @@
                             $(document).ready(function() {
                                 $("#skin-7").asPaginator(200, {
                                     currentPage: 8,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        960: 3,
+                                        1280: 5
                                     },
                                     wrap: false,
-                                    first: '<a href="#" class="asPaginator-first">First</a>',
-                                    prev: '<a href="#" class="asPaginator-prev">← prev</a>',
-                                    next: '<a href="#" class="asPaginator-next">next →</a>',
-                                    last: '<a href="#" class="asPaginator-last">Last</a>',
                                     components: {
+                                        arrow: {
+                                            prev: '<a href="#" class="asPaginator-prev">← prev</a>',
+                                            next: '<a href="#" class="asPaginator-next">next →</a>'
+                                        },
+                                        jump: {
+                                            first: '<a href="#" class="asPaginator-first">First</a>',
+                                            last: '<a href="#" class="asPaginator-last">Last</a>'
+                                        },
                                         lists: {
                                             tpl: function(i, classes) {
                                                 if (classes === 'omit') {
@@ -278,14 +276,15 @@
                             $(document).ready(function() {
                                 $("#custom-1").asPaginator(100,{
                                     currentPage: 1,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        480: 3,
+                                        960: 5
                                     },
                                     skin: 'skin-1',
                                     components: {
+                                        arrow: true,
+                                        jump: true,
                                         lists: {
                                             fix: true
                                         }
@@ -312,14 +311,15 @@
                             $(document).ready(function() {
                                 $("#fix-skin-2").asPaginator(100,{
                                     currentPage: 1,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        480: 3,
+                                        960: 5
                                     },
                                     skin: 'skin-2',
                                     components: {
+                                        arrow: true,
+                                        jump: true,
                                         lists: {
                                             fix: true
                                         }
@@ -345,14 +345,15 @@
                             $(document).ready(function() {
                                 $("#fix-skin-3").asPaginator(100,{
                                     currentPage: 1,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        480: 3,
+                                        960: 5
                                     },
                                     skin: 'skin-3',
                                     components: {
+                                        arrow: true,
+                                        jump: true,
                                         lists: {
                                             fix: true
                                         }
@@ -378,14 +379,15 @@
                             $(document).ready(function() {
                                 $("#fix-skin-4").asPaginator(100,{
                                     currentPage: 3,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        480: 3,
+                                        960: 5
                                     },
                                     skin: 'skin-4',
                                     components: {
+                                        arrow: true,
+                                        jump: true,
                                         lists: {
                                             fix: true
                                         }
@@ -411,18 +413,21 @@
                             $(document).ready(function() {
                                 $("#fix-skin-5").asPaginator(100,{
                                     currentPage: 1,
-                                    responsive: {
-                                        visibleNum: [
-                                            [480, 3],
-                                            [960, 5]
-                                        ]
+                                    visibleNum: {
+                                        0: 2,
+                                        480: 3,
+                                        960: 5
                                     },
                                     wrap: false,
-                                    first: '<a href="#" class="asPaginator-first">First</a>',
-                                    prev: '<a href="#" class="asPaginator-prev">← prev</a>',
-                                    next: '<a href="#" class="asPaginator-next">next →</a>',
-                                    last: '<a href="#" class="asPaginator-last">Last</a>',
                                     components: {
+                                        arrow: {
+                                            prev: '<a href="#" class="asPaginator-prev">← prev</a>',
+                                            next: '<a href="#" class="asPaginator-next">next →</a>'
+                                        },
+                                        jump: {
+                                            first: '<a href="#" class="asPaginator-first">First</a>',
+                                            last: '<a href="#" class="asPaginator-last">Last</a>'
+                                        },
                                         lists: {
                                             fix: true,
                                             tpl: function(i, classes) {
@@ -456,6 +461,7 @@
                                     currentPage: 1,
                                     skin: 'skin-2',
                                     components: {
+                                        arrow: true,
                                         info: true
                                     },
                                     onChange: function(page) {
@@ -493,6 +499,8 @@
                                     visibleNum: 3,
                                     skin: 'skin-1',
                                     components: {
+                                        arrow: true,
+                                        jump: true,
                                         lists: true,
                                         goTo: true
                                     },
