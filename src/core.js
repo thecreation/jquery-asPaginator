@@ -368,7 +368,7 @@
         currentPage: 1,
         itemsPerPage: 10,
         visibleNum: 5,
-        resizeTime: 250,
+        resizeThrottle: 250,
 
         disabledClass: 'asPaginator_disable',
         activeClass: 'asPaginator_active',
