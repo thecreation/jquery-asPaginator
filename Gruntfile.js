@@ -21,8 +21,12 @@ module.exports = function(grunt) {
                 stripBanners: true
             },
             dist: {
-                src: ['src/core.js', 'src/altLists.js', 'goTo.js', 'info.js'],
-                dest: 'dist/<%= pkg.name %>.js'
+                files: {
+                    'dist/<%= pkg.name %>.js': 'src/core.js',
+                    'dist/<%= pkg.name %>.altLists.js': 'src/components/altLists.js',
+                    'dist/<%= pkg.name %>.goTo.js': 'src/components/goTo.js',
+                    'dist/<%= pkg.name %>.info.js': 'src/components/info.js',
+                }
             }
         },
 
@@ -32,8 +36,12 @@ module.exports = function(grunt) {
                 banner: '<%= banner %>'
             },
             dist: {
-                src: '<%= concat.dist.dest %>',
-                dest: 'dist/<%= pkg.name %>.min.js'
+                files: {
+                    'dist/<%= pkg.name %>.min.js': 'dist/<%= pkg.name %>.js',
+                    'dist/<%= pkg.name %>.altLists.min.js': 'dist/<%= pkg.name %>.altLists.js',
+                    'dist/<%= pkg.name %>.goTo.min.js': 'dist/<%= pkg.name %>.goTo.js',
+                    'dist/<%= pkg.name %>.info.min.js': 'dist/<%= pkg.name %>.info.js',
+                }
             }
         },
 

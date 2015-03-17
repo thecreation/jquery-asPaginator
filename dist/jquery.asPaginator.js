@@ -1,10 +1,6 @@
-/*
- * asPaginator
- * https://github.com/amazingSurge/asPaginator
- *
- * Copyright (c) 2015 amazingSurge
- * Licensed under the GPL license.
- */
+/*! jQuery asPaginator - v0.2.1 - 2015-03-17
+* https://github.com/amazingSurge/jquery-asPaginator
+* Copyright (c) 2015 amazingSurge; Licensed GPL */
 (function($) {
     "use strict";
 

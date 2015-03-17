@@ -19,9 +19,9 @@
         <script src="js/jquery.toc.js"></script>
         <script src="js/prism.js"></script>
         <script src="../src/core.js"></script>
-        <script src="../src/altLists.js"></script>
-        <script src="../src/info.js"></script>
-        <script src="../src/goTo.js"></script>
+        <script src="../src/components/altLists.js"></script>
+        <script src="../src/components/info.js"></script>
+        <script src="../src/components/goTo.js"></script>
 
         <style type="text/css">
             #paginator-content {
@@ -64,7 +64,7 @@
             <h2>Example</h2>
             <p>options.components > skin.components > default.components
 
-                AsPaginator.registerSkin('skin-1',{
+                AsPaginator.registerSkin('asPaginator_skin-1',{
                     lists: {},
                     info: {}
                 });
@@ -87,7 +87,7 @@
                                         960: 3,
                                         1280: 5
                                     },
-                                    skin: 'skin-1',
+                                    skin: 'asPaginator_skin-1',
                                     
                                 });
 
@@ -106,7 +106,7 @@
                                         960: 3,
                                         1280: 5
                                     },
-                                    skin: 'skin-2',
+                                    skin: 'asPaginator_skin-2',
                                     onChange: function(page) {
                                         var url = '' + page;
                                         console.log('ajax request')
@@ -133,7 +133,7 @@
                                         960: 3,
                                         1280: 5
                                     },
-                                    skin: 'skin-3',
+                                    skin: 'asPaginator_skin-3',
                                     onChange: function(page) {
                                         var url = '' + page;
                                         console.log('ajax request')
@@ -160,7 +160,7 @@
                                         960: 3,
                                         1280: 5
                                     },
-                                    skin: 'skin-4',
+                                    skin: 'asPaginator_skin-4',
                                     onChange: function(page) {
                                         var url = '' + page;
                                         console.log('ajax request')
@@ -187,7 +187,7 @@
                                         960: 3,
                                         1280: 5
                                     },
-                                    skin: 'skin-5',
+                                    skin: 'asPaginator_skin-5',
                                     onChange: function(page) {
                                         var url = '' + page;
                                         console.log('ajax request')
@@ -214,7 +214,7 @@
                                         960: 3,
                                         1280: 5
                                     },
-                                    skin: 'skin-6',
+                                    skin: 'asPaginator_skin-6',
                                     onChange: function(page) {
                                         var url = '' + page;
                                         console.log('ajax request')
@@ -306,7 +306,10 @@
                                         480: 3,
                                         960: 5
                                     },
-                                    skin: 'skin-1',
+                                    skin: 'asPaginator_skin-1',
+                                    tpl: function() {
+                                        return '<ul>{{first}}{{prev}}{{altLists}}{{next}}{{last}}</ul>';
+                                    },
                                     components: {
                                         first: true,
                                         prev: true,
@@ -341,7 +344,10 @@
                                         480: 3,
                                         960: 5
                                     },
-                                    skin: 'skin-2',
+                                    skin: 'asPaginator_skin-2',
+                                    tpl: function() {
+                                        return '<ul>{{first}}{{prev}}{{altLists}}{{next}}{{last}}</ul>';
+                                    },
                                     components: {
                                         first: true,
                                         prev: true,
@@ -375,7 +381,10 @@
                                         480: 3,
                                         960: 5
                                     },
-                                    skin: 'skin-3',
+                                    skin: 'asPaginator_skin-3',
+                                    tpl: function() {
+                                        return '<ul>{{first}}{{prev}}{{altLists}}{{next}}{{last}}</ul>';
+                                    },
                                     components: {
                                         first: true,
                                         prev: true,
@@ -409,7 +418,10 @@
                                         480: 3,
                                         960: 5
                                     },
-                                    skin: 'skin-4',
+                                    skin: 'asPaginator_skin-4',
+                                    tpl: function() {
+                                        return '<ul>{{first}}{{prev}}{{altLists}}{{next}}{{last}}</ul>';
+                                    },
                                     components: {
                                         first: true,
                                         prev: true,
@@ -448,7 +460,10 @@
                             $(document).ready(function() {
                                 $("#info-1").asPaginator(100,{
                                     currentPage: 1,
-                                    skin: 'skin-2',
+                                    skin: 'asPaginator_skin-2',
+                                    tpl: function() {
+                                        return '<ul>{{prev}}{{info}}{{next}}</ul>';
+                                    },
                                     components: {
                                         prev: true,
                                         next: true,
@@ -487,7 +502,10 @@
                                 $("#goto-1").asPaginator(100,{
                                     currentPage: 8,
                                     visibleNum: 5,
-                                    skin: 'skin-1',
+                                    skin: 'asPaginator_skin-1',
+                                    tpl: function() {
+                                        return '<ul>{{first}}{{prev}}{{lists}}{{next}}{{last}}</ul>{{goTo}}';
+                                    },
                                     components: {
                                         first: true,
                                         prev: true,
