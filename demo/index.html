@@ -18,7 +18,10 @@
         <script src="../libs/jquery/jquery.js"></script>
         <script src="js/jquery.toc.js"></script>
         <script src="js/prism.js"></script>
-        <script src="../src/jquery-asPaginator.js"></script>
+        <script src="../src/core.js"></script>
+        <script src="../src/altLists.js"></script>
+        <script src="../src/info.js"></script>
+        <script src="../src/goTo.js"></script>
 
         <style type="text/css">
             #paginator-content {
@@ -70,15 +73,15 @@
                 <div id="toc2"></div>
                 <h3>Default</h3>
                 <pre class="has-example"><code class="language-javascript">
-    $(".custom").asPaginator(200);
+    $(".custom").asPaginator(100);
                 </code></pre>
                 <div class="example">
                     <div>
                         <div id="custom"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#custom").asPaginator(200,{
-                                    currentPage: 1,
+                                $("#custom").asPaginator(100,{
+                                    currentPage: 3,
                                     visibleNum: {
                                         0: 2,
                                         960: 3,
@@ -92,16 +95,18 @@
                             });
                         </script>
                     </div>
-                    <!-- <div>
+                    <div>
                         <div id="skin-2"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#skin-2").asPaginator(200,{
-                                    currentPage: 8,
-                                    skin: 'skin-2',
-                                    components: {
-                                        lists: false
+                                $("#skin-2").asPaginator(100,{
+                                    currentPage: 3,
+                                    visibleNum: {
+                                        0: 2,
+                                        960: 3,
+                                        1280: 5
                                     },
+                                    skin: 'skin-2',
                                     onChange: function(page) {
                                         var url = '' + page;
                                         console.log('ajax request')
@@ -116,13 +121,13 @@
                                 });                         
                             });
                         </script>
-                    </div> -->
+                    </div>
                     <div>
                         <div id="skin-3"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#skin-3").asPaginator(200,{
-                                    currentPage: 8,
+                                $("#skin-3").asPaginator(100,{
+                                    currentPage: 3,
                                     visibleNum: {
                                         0: 2,
                                         960: 3,
@@ -148,8 +153,8 @@
                         <div id="skin-4"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#skin-4").asPaginator(200,{
-                                    currentPage: 8,
+                                $("#skin-4").asPaginator(100,{
+                                    currentPage: 3,
                                     visibleNum: {
                                         0: 2,
                                         960: 3,
@@ -175,8 +180,8 @@
                         <div id="skin-5"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#skin-5").asPaginator(200,{
-                                    currentPage: 8,
+                                $("#skin-5").asPaginator(100,{
+                                    currentPage: 3,
                                     visibleNum: {
                                         0: 2,
                                         960: 3,
@@ -202,8 +207,8 @@
                         <div id="skin-6"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#skin-6").asPaginator(200,{
-                                    currentPage: 8,
+                                $("#skin-6").asPaginator(100,{
+                                    currentPage: 3,
                                     visibleNum: {
                                         0: 2,
                                         960: 3,
@@ -229,30 +234,50 @@
                         <div id="skin-7"></div>
                         <script>
                             $(document).ready(function() {
-                                $("#skin-7").asPaginator(200, {
-                                    currentPage: 8,
+                                $("#skin-7").asPaginator(100, {
+                                    currentPage: 3,
                                     visibleNum: {
                                         0: 2,
                                         960: 3,
                                         1280: 5
                                     },
-                                    wrap: false,
+                                    tpl: function() {
+                                        return '{{first}}{{prev}}{{lists}}{{next}}{{last}}';
+                                    },
                                     components: {
-                                        arrow: {
-                                            prev: '<a href="#" class="asPaginator-prev">← prev</a>',
-                                            next: '<a href="#" class="asPaginator-next">next →</a>'
+                                        prev: {
+                                            tpl: function() {
+                                                return '<a href="#" class="asPaginator-prev">← prev</a>';
+                                            }
                                         },
-                                        jump: {
-                                            first: '<a href="#" class="asPaginator-first">First</a>',
-                                            last: '<a href="#" class="asPaginator-last">Last</a>'
+                                        next: {
+                                            tpl: function() {
+                                                return '<a href="#" class="asPaginator-next">next →</a>';
+                                            }
+                                        },
+                                        first: {
+                                            tpl: function() {
+                                                return '<a href="#" class="asPaginator-first">First</a>';
+                                            }
+                                        },
+                                        last: {
+                                            tpl: function() {
+                                                return '<a href="#" class="asPaginator-last">Last</a>';
+                                            }
                                         },
                                         lists: {
-                                            tpl: function(i, classes) {
-                                                if (classes === 'omit') {
-                                                    return '<a class="class="asPaginator_omit" data-value="omit" href="#">...</a>';
-                                                } else {
-                                                    return '<a ' + (classes ? ('class="asPaginator_' + classes + '"') : '') + ' data-value="' + i + '" href="#">' + i + '</a>';
+                                            tpl: function() {
+                                                var lists = '',
+                                                    remainder = this.currentPage >= this.visible ? this.currentPage % this.visible : this.currentPage;
+                                                remainder = remainder === 0 ? this.visible : remainder;
+                                                for (var k = 1; k < remainder; k++) {
+                                                    lists += '<a class="' + this.namespace + '-items" data-value="' + (this.currentPage - remainder + k) + '" href="#">' + (this.currentPage - remainder + k) + '</a>';
                                                 }
+                                                lists += '<a class="' + this.namespace + '-items ' + this.namespace + '_active" data-value="' + this.currentPage + '" href="#">' + this.currentPage + '</a>';
+                                                for (var i = this.currentPage + 1, limit = i + this.visible - remainder - 1 > this.totalPages ? this.totalPages : i + this.visible - remainder - 1; i <= limit; i++) {
+                                                    lists += '<a class="' + this.namespace + '-items" data-value="' + i + '" href="#">' + i + '</a>';
+                                                }
+                                                return lists;
                                             }
                                         }
                                     }
@@ -265,17 +290,17 @@
 
             <section>
                 <div id="toc3"></div>
-                <h3>Fix</h3>
+                <h3>altLists</h3>
                 <pre class="has-example"><code class="language-javascript">
-    $(".custom").asPaginator(100,{components: { lists: { fix: true }});
+    $(".custom").asPaginator(200,{components: { lists: { fix: true }});
                 </code></pre>
                 <div class="example">
                     <div>
                         <div id="custom-1"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#custom-1").asPaginator(100,{
-                                    currentPage: 1,
+                                $("#custom-1").asPaginator(200,{
+                                    currentPage: 8,
                                     visibleNum: {
                                         0: 2,
                                         480: 3,
@@ -283,11 +308,11 @@
                                     },
                                     skin: 'skin-1',
                                     components: {
-                                        arrow: true,
-                                        jump: true,
-                                        lists: {
-                                            fix: true
-                                        }
+                                        first: true,
+                                        prev: true,
+                                        next: true,
+                                        last: true,
+                                        altLists: true
                                     },
                                     onChange: function(page) {
                                         var url = '' + page;
@@ -309,8 +334,8 @@
                         <div id="fix-skin-2"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#fix-skin-2").asPaginator(100,{
-                                    currentPage: 1,
+                                $("#fix-skin-2").asPaginator(200,{
+                                    currentPage: 8,
                                     visibleNum: {
                                         0: 2,
                                         480: 3,
@@ -318,11 +343,11 @@
                                     },
                                     skin: 'skin-2',
                                     components: {
-                                        arrow: true,
-                                        jump: true,
-                                        lists: {
-                                            fix: true
-                                        }
+                                        first: true,
+                                        prev: true,
+                                        next: true,
+                                        last: true,
+                                        altLists: true
                                     },
                                     onChange: function(page) {
                                         var url = '' + page;
@@ -343,8 +368,8 @@
                         <div id="fix-skin-3"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#fix-skin-3").asPaginator(100,{
-                                    currentPage: 1,
+                                $("#fix-skin-3").asPaginator(200,{
+                                    currentPage: 8,
                                     visibleNum: {
                                         0: 2,
                                         480: 3,
@@ -352,11 +377,11 @@
                                     },
                                     skin: 'skin-3',
                                     components: {
-                                        arrow: true,
-                                        jump: true,
-                                        lists: {
-                                            fix: true
-                                        }
+                                        first: true,
+                                        prev: true,
+                                        next: true,
+                                        last: true,
+                                        altLists: true
                                     },
                                     onChange: function(page) {
                                         var url = '' + page;
@@ -377,8 +402,8 @@
                         <div id="fix-skin-4"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#fix-skin-4").asPaginator(100,{
-                                    currentPage: 3,
+                                $("#fix-skin-4").asPaginator(200,{
+                                    currentPage: 8,
                                     visibleNum: {
                                         0: 2,
                                         480: 3,
@@ -386,11 +411,11 @@
                                     },
                                     skin: 'skin-4',
                                     components: {
-                                        arrow: true,
-                                        jump: true,
-                                        lists: {
-                                            fix: true
-                                        }
+                                        first: true,
+                                        prev: true,
+                                        next: true,
+                                        last: true,
+                                        altLists: true
                                     },
                                     onChange: function(page) {
                                         var url = '' + page;
@@ -402,42 +427,6 @@
 
                                             }
                                         })
-                                    }
-                                });                         
-                            });
-                        </script>
-                    </div>
-                    <div>
-                        <div id="fix-skin-5"></div>
-                        <script>                   
-                            $(document).ready(function() {
-                                $("#fix-skin-5").asPaginator(100,{
-                                    currentPage: 1,
-                                    visibleNum: {
-                                        0: 2,
-                                        480: 3,
-                                        960: 5
-                                    },
-                                    wrap: false,
-                                    components: {
-                                        arrow: {
-                                            prev: '<a href="#" class="asPaginator-prev">← prev</a>',
-                                            next: '<a href="#" class="asPaginator-next">next →</a>'
-                                        },
-                                        jump: {
-                                            first: '<a href="#" class="asPaginator-first">First</a>',
-                                            last: '<a href="#" class="asPaginator-last">Last</a>'
-                                        },
-                                        lists: {
-                                            fix: true,
-                                            tpl: function(i, classes) {
-                                                if (classes === 'omit') {
-                                                    return '<a class="class="asPaginator_omit" data-value="omit" href="#">...</a>';
-                                                } else {
-                                                    return '<a ' + (classes ? ('class="asPaginator_' + classes + '"') : '') + ' data-value="' + i + '" href="#">' + i + '</a>';
-                                                }
-                                            }
-                                        }
                                     }
                                 });                         
                             });
@@ -461,7 +450,8 @@
                                     currentPage: 1,
                                     skin: 'skin-2',
                                     components: {
-                                        arrow: true,
+                                        prev: true,
+                                        next: true,
                                         info: true
                                     },
                                     onChange: function(page) {
@@ -487,20 +477,22 @@
                 <div id="toc5"></div>
                 <h3>Goto</h3>
                 <pre class="has-example"><code class="language-javascript">
-    $(".custom").asPaginator(200,{components: { lists: true, goTo: true });
+    $(".custom").asPaginator(100,{components: { lists: true, goTo: true });
                 </code></pre>
                 <div class="example">
                     <div>
                         <div id="goto-1"></div>
                         <script>                   
                             $(document).ready(function() {
-                                $("#goto-1").asPaginator(200,{
+                                $("#goto-1").asPaginator(100,{
                                     currentPage: 8,
-                                    visibleNum: 3,
+                                    visibleNum: 5,
                                     skin: 'skin-1',
                                     components: {
-                                        arrow: true,
-                                        jump: true,
+                                        first: true,
+                                        prev: true,
+                                        next: true,
+                                        last: true,
                                         lists: true,
                                         goTo: true
                                     },

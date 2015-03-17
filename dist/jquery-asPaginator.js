@@ -1,10 +1,10 @@
-/*! jQuery asPaginator - v0.1.4 - 2015-03-12
+/*! jQuery asPaginator - v0.2.0 - 2015-03-17
 * https://github.com/amazingSurge/jquery-asPaginator
 * Copyright (c) 2015 amazingSurge; Licensed GPL */
 (function($) {
     "use strict";
 
-    var AsPaginator = function(paginator, totalItems, options) {
+    var AsPaginator = $.asPaginator = function(paginator, totalItems, options) {
 
         this.element = paginator;
         this.$element = $(paginator).empty();
@@ -35,8 +35,6 @@
         }
 
         this.disabled = false;
-        this.arrow = false;
-        this.jump = false;
 
         this._trigger('init');
         this.init();
@@ -49,10 +47,23 @@
         init: function() {
             var self = this;
 
-            self.$wrap = self.options.wrap ? $(self.options.wrap.replace(/\{\{namespace\}\}/g, this.namespace)) : self.$element;
+            self.visible = self.getVisible();
+            self.firstTpl = '';
+            self.prevTpl = '';
+            self.nextTpl = '';
+            self.lastTpl = '';
+            self.itemsTpl = '';
+            self.goToTpl = '';
 
-            self.$wrap.appendTo(self.$element);
+            $.each(this.options.components, function(key, value) {
+                if (value === null || value === false) {
+                    return false;
+                }
 
+                self.components[key].init.call(self.components[key], self);
+            });
+
+            self.createHtml();
             self.bindEvents();
 
             self.goTo(self.currentPage);
@@ -68,6 +79,43 @@
 
             this._trigger('ready');
         },
+        createHtml: function() {
+            var self = this;
+            self.contents = self.options.tpl();
+
+            var length = self.contents.match(/\{\{([^\}]+)\}\}/g).length,
+                components;
+
+            for (var i = 0; i < length; i++) {
+                components = self.contents.match(/\{\{([^\}]+)\}\}/);
+
+                switch (components[1]) {
+                    case 'namespace':
+                        self.contents = self.contents.replace(components[0], self.namespace);
+                        break;
+                    case "first":
+                        self.contents = self.contents.replace(components[0], self.firstTpl);
+                        break;
+                    case "prev":
+                        self.contents = self.contents.replace(components[0], self.prevTpl);
+                        break;
+                    case "next":
+                        self.contents = self.contents.replace(components[0], self.nextTpl);
+                        break;
+                    case "last":
+                        self.contents = self.contents.replace(components[0], self.lastTpl);
+                        break;
+                    case 'lists':
+                        self.contents = self.contents.replace(components[0], self.itemsTpl);
+                        break;
+                    case 'goTo':
+                        self.contents = self.contents.replace(components[0], self.goToTpl);
+                        break;
+                }
+            }
+
+            self.$element.append($(self.contents));
+        },
         bindEvents: function() {
             var self = this;
 
@@ -76,7 +124,7 @@
                     return false;
                 }
 
-                self.components[key].init.call(self.components[key], self);
+                self.components[key].bindEvents.call(self.components[key], self);
             });
         },
         unbindEvents: function() {
@@ -94,6 +142,7 @@
             var self = this;
             self._trigger('resize');
             self.goTo(self.currentPage);
+            self.visible = self.getVisible();
 
             $.each(this.options.components, function(key, value) {
                 if (value === null || value === false) {
@@ -137,6 +186,21 @@
                 return result;
             };
         },
+        getVisible: function() {
+            var width = $('body, html').width(),
+                adjacent = 0;
+            if (typeof this.options.visibleNum !== 'number') {
+                $.each(this.options.visibleNum, function(i, v) {
+                    if (width > i) {
+                        adjacent = v;
+                    }
+                });
+            } else {
+                adjacent = this.options.visibleNum;
+            }
+
+            return adjacent;
+        },
         calculate: function(current, total, visible) {
             var omitLeft = 1,
                 omitRight = 1;
@@ -178,17 +242,17 @@
                 return false;
             }
 
-            this.$wrap.children().removeClass(this.classes.disabled);
+            this.$element.find('.' + this.classes.disabled).removeClass(this.classes.disabled);
 
             // when add class when go to the first one or the last one
             if (page === this.totalPages) {
-                this.$wrap.find('.' + this.namespace + '-next').addClass(this.classes.disabled);
-                this.$wrap.find('.' + this.namespace + '-last').addClass(this.classes.disabled);
+                this.$element.find('.' + this.namespace + '-next').addClass(this.classes.disabled);
+                this.$element.find('.' + this.namespace + '-last').addClass(this.classes.disabled);
             }
 
             if (page === 1) {
-                this.$wrap.find('.' + this.namespace + '-prev').addClass(this.classes.disabled);
-                this.$wrap.find('.' + this.namespace + '-first').addClass(this.classes.disabled);
+                this.$element.find('.' + this.namespace + '-prev').addClass(this.classes.disabled);
+                this.$element.find('.' + this.namespace + '-first').addClass(this.classes.disabled);
             }
 
             // here change current page first, and then trigger 'change' event
@@ -316,10 +380,6 @@
     AsPaginator.defaults = {
         namespace: 'asPaginator',
 
-        wrap: '<ul class="{{namespace}}-basic"></ul>',
-        first: '<li class="{{namespace}}-first"><a>First</a></li>',
-        last: '<li class="{{namespace}}-last"><a>Last</a></li>',
-
         currentPage: 1,
         itemsPerPage: 10,
         visibleNum: 5,
@@ -328,10 +388,16 @@
         disabledClass: 'asPaginator_disable',
         activeClass: 'asPaginator_active',
 
+        tpl: function() {
+            return '<ul>{{first}}{{prev}}{{lists}}{{next}}{{last}}</ul>{{goTo}}';
+        },
+
         skin: null,
         components: {
-            arrow: true,
-            jump: true,
+            first: true,
+            prev: true,
+            next: true,
+            last: true,
             lists: true
         },
 
@@ -345,73 +411,101 @@
         AsPaginator.prototype.components[name] = method;
     };
 
-    AsPaginator.registerComponent('arrow', {
+    AsPaginator.registerComponent('prev', {
         defaults: {
-            prev: '<li class="{{namespace}}-prev"><a>Prev</a></li>',
-            next: '<li class="{{namespace}}-next"><a>Next</a></li>'
+            tpl: function() {
+                return '<li class="' + this.namespace + '-prev"><a>Prev</a></li>';
+            }
         },
         init: function(instance) {
-            var opts = $.extend({}, this.defaults, instance.options.components.arrow);
+            var opts = $.extend({}, this.defaults, instance.options.components.prev);
 
-            this.$prev = $(opts.prev.replace(/\{\{namespace\}\}/g, instance.namespace));
-            this.$next = $(opts.next.replace(/\{\{namespace\}\}/g, instance.namespace));
-
-            if (instance.jump) {
-                instance.$wrap.find('.' + instance.namespace + '-first').after(this.$prev);
-                instance.$wrap.find('.' + instance.namespace + '-last').before(this.$next);
-            } else {
-                this.$prev.prependTo(instance.$wrap);
-                this.$next.appendTo(instance.$wrap);
-            }
-
-            instance.arrow = true;
-            this.bindEvents(instance);
+            instance.prevTpl = opts.tpl.call(instance);
         },
         bindEvents: function(instance) {
+            this.$prev = instance.$element.find('.' + instance.namespace + '-prev');
             this.$prev.on('click.asPaginator', $.proxy(instance.prev, instance));
-            this.$next.on('click.asPaginator', $.proxy(instance.next, instance));
         },
         unbindEvents: function() {
             this.$prev.off('click.asPaginator');
+        }
+    })
+
+    AsPaginator.registerComponent('next', {
+        defaults: {
+            tpl: function() {
+                return '<li class="' + this.namespace + '-next"><a>Next</a></li>';
+            }
+        },
+        init: function(instance) {
+            var opts = $.extend({}, this.defaults, instance.options.components.next);
+
+            instance.nextTpl = opts.tpl.call(instance);
+        },
+        bindEvents: function(instance) {
+            this.$next = instance.$element.find('.' + instance.namespace + '-next');
+            this.$next.on('click.asPaginator', $.proxy(instance.next, instance));
+        },
+        unbindEvents: function() {
             this.$next.off('click.asPaginator');
         }
     });
 
-    AsPaginator.registerComponent('jump', {
+    AsPaginator.registerComponent('first', {
         defaults: {
-            first: '<li class="{{namespace}}-first"><a>first</a></li>',
-            last: '<li class="{{namespace}}-last"><a>last</a></li>'
+            tpl: function() {
+                return '<li class="' + this.namespace + '-first"><a>First</a></li>';
+            }
         },
         init: function(instance) {
-            var opts = $.extend({}, this.defaults, instance.options.components.jump);
+            var opts = $.extend({}, this.defaults, instance.options.components.first);
 
-            this.$first = $(opts.first.replace(/\{\{namespace\}\}/g, instance.namespace)).prependTo(instance.$wrap);
-            this.$last = $(opts.last.replace(/\{\{namespace\}\}/g, instance.namespace)).appendTo(instance.$wrap);
-
-            instance.jump = true;
-            this.bindEvents(instance);
+            instance.firstTpl = opts.tpl.call(instance);
         },
         bindEvents: function(instance) {
+            this.$first = instance.$element.find('.' + instance.namespace + '-first');
             this.$first.on('click.asPaginator', $.proxy(instance.goFirst, instance));
-            this.$last.on('click.asPaginator', $.proxy(instance.goLast, instance));
         },
         unbindEvents: function() {
             this.$first.off('click.asPaginator');
+        }
+    });
+
+    AsPaginator.registerComponent('last', {
+        defaults: {
+            tpl: function() {
+                return '<li class="' + this.namespace + '-last"><a>Last</a></li>';
+            }
+        },
+        init: function(instance) {
+            var opts = $.extend({}, this.defaults, instance.options.components.last);
+
+            instance.lastTpl = opts.tpl.call(instance);
+        },
+        bindEvents: function(instance) {
+            this.$last = instance.$element.find('.' + instance.namespace + '-last');
+            this.$last.on('click.asPaginator', $.proxy(instance.goLast, instance));
+        },
+        unbindEvents: function() {
             this.$last.off('click.asPaginator');
         }
     });
 
     AsPaginator.registerComponent('lists', {
         defaults: {
-            fix: false,
-            tpl: function(i, classes) {
-                if (classes === 'active') {
-                    return '<li class="' + this.classes.active + '" data-value="' + i + '"><a href="#">' + i + '</a></li>';
-                } else if (classes === 'omit') {
-                    return '<li class="' + this.namespace + '_ellipsis" data-value="ellipsis"><a href="#">...</a></li>';
-                } else {
-                    return '<li data-value="' + i + '"><a href="#">' + i + '</a></li>';
+            tpl: function() {
+                var lists = '',
+                    remainder = this.currentPage >= this.visible ? this.currentPage % this.visible : this.currentPage;
+                remainder = remainder === 0 ? this.visible : remainder;
+                for (var k = 1; k < remainder; k++) {
+                    lists += '<li class="' + this.namespace + '-items" data-value="' + (this.currentPage - remainder + k) + '"><a href="#">' + (this.currentPage - remainder + k) + '</a></li>';
                 }
+                lists += '<li class="' + this.namespace + '-items ' + this.classes.active + '" data-value="' + this.currentPage + '"><a href="#">' + this.currentPage + '</a></li>';
+                for (var i = this.currentPage + 1, limit = i + this.visible - remainder - 1 > this.totalPages ? this.totalPages : i + this.visible - remainder - 1; i <= limit; i++) {
+                    lists += '<li class="' + this.namespace + '-items" data-value="' + i + '"><a href="#">' + i + '</a></li>';
+                }
+
+                return lists;
             }
         },
         init: function(instance) {
@@ -419,19 +513,16 @@
 
             this.opts = opts;
 
-            this.bindEvents(instance);
+            instance.itemsTpl = this.opts.tpl.call(instance);
         },
         bindEvents: function(instance) {
             var self = this;
-            instance.$wrap.on('click', instance.$wrap.children(), function(e) {
+            this.$items = instance.$element.find('.' + instance.namespace + '-items');
+            instance.$element.on('click', this.$items, function(e) {
                 var page = $(e.target).parent().data('value') || $(e.target).data('value');
 
                 if (page === undefined) {
                     //console.log("wrong page value or prev&&next");
-                    return false;
-                }
-
-                if (page === 'omit' && self.opts.fix === false) {
                     return false;
                 }
 
@@ -440,110 +531,25 @@
                 }
 
                 instance.goTo(page);
-            })
+            });
 
-            if (self.opts.fix === false) {
+            self.render(instance);
+            instance.$element.on('asPaginator::change', function() {
                 self.render(instance);
-                instance.$element.on('asPaginator::change', function() {
-                    self.render(instance);
-                });
-            } else {
-                self.fixRender(instance);
-                instance.$element.on('asPaginator::change', function() {
-                    self.fixRender(instance);
-                });
-            }
+            });
         },
         unbindEvents: function(instance) {
-            instance.$wrap.off('click', instance.$wrap.children());
+            instance.$element.off('click', this.$items);
         },
         resize: function(instance) {
-            if (this.opts.fix === false) {
-                this.render(instance);
-            } else {
-                this.fixRender(instance);
-            }
-        },
-        createHtml: function(instance, $list) {
-            if (instance.arrow) {
-                instance.$wrap.find('.' + instance.namespace + '-prev').after($list);
-            } else if (instance.jump) {
-                instance.$wrap.find('.' + instance.namespace + '-first').after($list);
-            } else {
-                instance.$wrap.append($list);
-            }
-        },
-        getVisible: function(instance) {
-            var width = instance.$element.width(),
-                adjacent = 0;
-            if (typeof instance.options.visibleNum !== 'number') {
-                $.each(instance.options.visibleNum, function(i, v) {
-                    if (width > i) {
-                        adjacent = v;
-                    }
-                });
-            } else {
-                adjacent = instance.options.visibleNum;
-            }
-
-            return adjacent;
+            this.render(instance);
         },
         render: function(instance) {
             var current = instance.currentPage,
-                max = instance.totalPages,
-                adjacent = this.getVisible(instance),
-                omit = instance.calculate(current, max, adjacent),
-                list = '',
-                i;
-
-            if (omit.left === 0) {
-                for (i = 1; i <= current - 1; i++) {
-                    list += this.opts.tpl.call(instance, i);
-                }
-                list += this.opts.tpl.call(instance, current, 'active');
-            } else {
-                for (i = 1; i <= 2; i++) {
-                    list += this.opts.tpl.call(instance, i);
-                }
-
-                list += this.opts.tpl.call(instance, current, 'omit');
-
-                for (i = current - adjacent + 1; i <= current - 1; i++) {
-                    list += this.opts.tpl.call(instance, i);
-                }
-
-                list += this.opts.tpl.call(instance, current, 'active');
-            }
-
-            if (omit.right === 0) {
-                for (i = current + 1; i <= max; i++) {
-                    list += this.opts.tpl.call(instance, i);
-                }
-            } else {
-                for (i = current + 1; i <= current + adjacent - 1; i++) {
-                    list += this.opts.tpl.call(instance, i);
-                }
-
-                list += this.opts.tpl.call(instance, current, 'omit');
-
-                for (i = max - 1; i <= max; i++) {
-                    list += this.opts.tpl.call(instance, i);
-                }
-            }
-
-            instance.$wrap.children().not('.' + instance.namespace + '-prev').not('.' + instance.namespace + '-next')
-                .not('.' + instance.namespace + '-first').not('.' + instance.namespace + '-last')
-                .remove();
-
-            this.createHtml(instance, $(list));
-        },
-        fixRender: function(instance) {
-            var current = instance.currentPage,
                 overflow,
-                visible = this.getVisible(instance),
-                list = '';
+                self = this;
 
-            var array = instance.$wrap.children().removeClass(instance.classes.active);
+            var array = this.$items.removeClass(instance.classes.active);
             $.each(array, function(i, v) {
 
                 if ($(v).data('value') === current) {
@@ -553,95 +559,20 @@
                 }
             });
 
-            if (overflow === false && this.visibleBefore === visible) {
+            if (overflow === false && this.visibleBefore === instance.visible) {
                 return;
             }
 
-            this.visibleBefore = visible;
+            this.visibleBefore = instance.visible;
 
-            var remainder = current >= visible ? current % visible : current;
-            remainder = remainder === 0 ? visible : remainder;
-
-            for (var k = 1; k < remainder; k++) {
-                list += this.opts.tpl.call(instance, current - remainder + k);
-            }
-
-            list += this.opts.tpl.call(instance, current, 'active');
-
-            for (var i = current + 1, limit = i + visible - remainder - 1 > instance.totalPages ? instance.totalPages : i + visible - remainder - 1; i <= limit; i++) {
-                list += this.opts.tpl.call(instance, i);
-            }
-
-            instance.$wrap.children().not('.' + instance.namespace + '-prev').not('.' + instance.namespace + '-next')
-                .not('.' + instance.namespace + '-first').not('.' + instance.namespace + '-last')
-                .remove();
-
-            this.createHtml(instance, $(list));
-        }
-    });
-
-    AsPaginator.registerComponent('goTo', {
-        defaults: {
-            tpl: function() {
-                return '<div class="' + this.namespace + '-goto">' +
-                    '<input type="text" class="' + this.namespace + '-input" />' +
-                    '<button type="submit" class="' + this.namespace + '-submit">Go</button>' +
-                    '</div>';
-            }
-        },
-        init: function(instance) {
-            var opts = $.extend({}, this.defaults, instance.options.components.goTo);
-            this.$goTo = $(opts.tpl.call(instance));
-            this.$input = this.$goTo.find('.' + instance.namespace + '-input');
-            this.$button = this.$goTo.find('.' + instance.namespace + '-submit');
-
-            instance.$element.append(this.$goTo);
-            this.bindEvents(instance);
-        },
-        bindEvents: function(instance) {
-            var self = this;
-            self.$button.on('click', function() {
-                var page = parseInt(self.$input.val(), 10);
-                page = page > 0 ? page : instance.currentPage;
-                instance.goTo(page);
+            $.each(array, function(i, v) {
+                if (i === 0) {
+                    $(v).replaceWith(self.opts.tpl.call(instance));
+                } else {
+                    $(v).remove();
+                }
             });
-        },
-        unbindEvents: function() {
-            this.$goTo.off('click', this.$button);
-        }
-    });
-
-    AsPaginator.registerComponent('info', {
-        defaults: {
-            tpl: function() {
-                return '<li class="' + this.namespace + '-info">' +
-                    '<a href="javascript:void(0);">' +
-                    '<span class="' + this.namespace + '-current">' +
-                    '</span> / <span class="' + this.namespace + '-total"></span>' +
-                    '</a>' +
-                    '</li>';
-            }
-        },
-        init: function(instance) {
-            var opts = $.extend({}, this.defaults, instance.options.components.info),
-                $info = $(opts.tpl.call(instance)),
-                $current = $info.find('.' + instance.namespace + '-current');
-
-            $info.find('.' + instance.namespace + '-total').text(instance.totalPages);
-            this.createHtml(instance, $info);
-            $current.text(instance.currentPage);
-            instance.$element.on('asPaginator::change', function() {
-                $current.text(instance.currentPage);
-            });
-        },
-        createHtml: function(instance, $info) {
-            if (instance.arrow) {
-                instance.$wrap.find('.' + instance.namespace + '-prev').after($info);
-            } else if (instance.jump) {
-                instance.$wrap.find('.' + instance.namespace + '-first').after($info);
-            } else {
-                instance.$wrap.append($info);
-            }
+            this.$items = instance.$element.find('.' + instance.namespace + '-items');
         }
     });
 
@@ -671,3 +602,120 @@
     };
 
 }(jQuery));
+
+// altLists
+
+(function($) {
+    "use strict";
+
+    $.asPaginator.registerComponent('altLists', {
+        defaults: {
+            tpl: function() {
+                var lists = '',
+                    max = this.totalPages,
+                    current = this.currentPage,
+                    omit = this.calculate(current, max, this.visible),
+                    self = this,
+                    i;
+                var item = function(i, classes) {
+                    if (classes === 'active') {
+                        return '<li class="' + self.namespace + '-items ' + self.classes.active + '" data-value="' + i + '"><a href="#">' + i + '</a></li>';
+                    } else if (classes === 'omit') {
+                        return '<li class="' + self.namespace + '-items ' + self.namespace + '_ellipsis" data-value="ellipsis"><a href="#">...</a></li>';
+                    } else {
+                        return '<li class="' + self.namespace + '-items" data-value="' + i + '"><a href="#">' + i + '</a></li>';
+                    }
+                }
+
+                if (omit.left === 0) {
+                    for (i = 1; i <= current - 1; i++) {
+                        lists += item(i);
+                    }
+                    lists += item(current, 'active');
+                } else {
+                    for (i = 1; i <= 2; i++) {
+                        lists += item(i);
+                    }
+
+                    lists += item(current, 'omit');
+
+                    for (i = current - this.visible + 1; i <= current - 1; i++) {
+                        lists += item(i);
+                    }
+
+                    lists += item(current, 'active');
+                }
+
+                if (omit.right === 0) {
+                    for (i = current + 1; i <= max; i++) {
+                        lists += item(i);
+                    }
+                } else {
+                    for (i = current + 1; i <= current + this.visible - 1; i++) {
+                        lists += item(i);
+                    }
+
+                    lists += item(current, 'omit');
+
+                    for (i = max - 1; i <= max; i++) {
+                        lists += item(i);
+                    }
+                }
+
+                return lists;
+            }
+        },
+        init: function(instance) {
+            var opts = $.extend({}, this.defaults, instance.options.components.altLists);
+
+            this.opts = opts;
+
+            instance.itemsTpl = this.opts.tpl.call(instance);
+        },
+        bindEvents: function(instance) {
+            var self = this;
+            this.$items = instance.$element.find('.' + instance.namespace + '-items');
+            instance.$element.on('click', this.$items, function(e) {
+                var page = $(e.target).parent().data('value') || $(e.target).data('value');
+
+                if (page === undefined) {
+                    //console.log("wrong page value or prev&&next");
+                    return false;
+                }
+
+                if (page === 'ellipsis') {
+                    return false;
+                }
+
+                if (page === '') {
+                    return false;
+                }
+
+                instance.goTo(page);
+            })
+
+            self.render(instance);
+            instance.$element.on('asPaginator::change', function() {
+                self.render(instance);
+            });
+        },
+        unbindEvents: function(instance) {
+            instance.$wrap.off('click', this.$items);
+        },
+        resize: function(instance) {
+            this.render(instance);
+        },
+        render: function(instance) {
+            var self = this,
+                array = this.$items.removeClass(instance.classes.active);
+            $.each(array, function(i, v) {
+                if (i === 0) {
+                    $(v).replaceWith(self.opts.tpl.call(instance));
+                } else {
+                    $(v).remove();
+                }
+            });
+            this.$items = instance.$element.find('.' + instance.namespace + '-items');
+        }
+    });
+})(jQuery);
