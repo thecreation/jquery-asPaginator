@@ -1,0 +1,208 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>AsPaginator</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/prism.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="../dist/css/asPaginator.css">
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery.toc.js"></script>
+  <script src="js/prism.js"></script>
+  <script src="../dist/jquery-asPaginator.js"></script>
+  <style type="text/css">
+    #paginator-content {
+      height: 100px;
+      margin-top: 10px;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+    }
+
+    .asPaginator > a {
+      display: inline-block;
+      padding: 5px 10px;
+      margin: 0 5px;
+      text-decoration: none;
+      border: 1px solid #979797;
+    }
+
+    .asPaginator> a.asPaginator_active {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div id="toc"></div>
+  <div class="container">
+    <h1>jQuery.asPaginator</h1>
+    <section>
+      <h2>Example</h2>
+      <section>
+        <h3>Default</h3>
+        <pre class="has-example"><code class="language-javascript">
+  $(".custom").asPaginator(100);
+</code></pre>
+        <div class="example">
+          <div>
+            <div id="paginator"></div>
+            <script>
+              $(document).ready(function() {
+                $("#paginator").asPaginator(100, {
+                  currentPage: 3,
+                  visibleNum: {
+                    0: 2,
+                    960: 3,
+                    1280: 5
+                  },
+                  onChange: function(page) {
+                    var url = '' + page;
+                    console.log('ajax request')
+                    $.ajax({
+                      url: url,
+                      dataType: 'json',
+                      success: function(data) {
+                      }
+                    })
+                  }
+                });
+              });
+            </script>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>altLists</h3>
+        <pre class="has-example"><code class="language-javascript">
+  $(".custom").asPaginator(200,{components: { lists: { fix: true }});
+</code></pre>
+        <div class="example">
+          <div>
+            <div id="altLists"></div>
+            <script>
+              $(document).ready(function() {
+                $("#altLists").asPaginator(200, {
+                  currentPage: 8,
+                  visibleNum: {
+                    0: 2,
+                    480: 3,
+                    960: 5
+                  },
+                  tpl: function() {
+                    return '<ul>{{first}}{{prev}}{{altLists}}{{next}}{{last}}</ul>';
+                  },
+                  components: {
+                    first: true,
+                    prev: true,
+                    next: true,
+                    last: true,
+                    altLists: true
+                  },
+                  onChange: function(page) {
+                    var url = '' + page;
+                    console.log('ajax request')
+                    $.ajax({
+                      url: url,
+                      dataType: 'json',
+                      success: function(data) {
+                      }
+                    })
+                  }
+                });
+              });
+            </script>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>Info</h3>
+        <pre class="has-example"><code class="language-javascript">
+  $(".custom").asPaginator(100,{components: { info: true });
+</code></pre>
+        <div class="example">
+          <div>
+            <div id="info"></div>
+            <script>
+              $(document).ready(function() {
+                $("#info").asPaginator(100, {
+                  currentPage: 1,
+                  tpl: function() {
+                    return '<ul>{{prev}}{{info}}{{next}}</ul>';
+                  },
+                  components: {
+                    prev: true,
+                    next: true,
+                    info: true
+                  },
+                  onChange: function(page) {
+                    var url = '' + page;
+                    console.log('ajax request')
+                    $.ajax({
+                      url: url,
+                      dataType: 'json',
+                      success: function(data) {
+                      }
+                    })
+                  }
+                });
+              });
+            </script>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>Goto</h3>
+        <pre class="has-example"><code class="language-javascript">
+  $(".custom").asPaginator(100,{components: { lists: true, goTo: true });
+</code></pre>
+        <div class="example">
+          <div>
+            <div id="goto"></div>
+            <script>
+              $(document).ready(function() {
+                $("#goto").asPaginator(100, {
+                  currentPage: 8,
+                  visibleNum: 5,
+                  tpl: function() {
+                    return '<ul>{{first}}{{prev}}{{lists}}{{next}}{{last}}</ul>{{goTo}}';
+                  },
+                  components: {
+                    first: true,
+                    prev: true,
+                    next: true,
+                    last: true,
+                    lists: true,
+                    goTo: true
+                  },
+                  onChange: function(page) {
+                    var url = '' + page;
+                    console.log('ajax request')
+                    $.ajax({
+                      url: url,
+                      dataType: 'json',
+                      success: function(data) {}
+                    })
+                  }
+                });
+              });
+            </script>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+  <script>
+    (function() {
+      $('#toc').toc();
+    })();
+  </script>
+</body>
+</html>
