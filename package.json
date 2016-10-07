@@ -1,8 +1,8 @@
 {
   "name": "jquery-asPaginator",
   "title": "jQuery asPaginator",
-  "description": "A jquery plugin that do amazing things.",
-  "version": "0.3.0",
+  "description": "A jquery plugins taht help generate a paginator.",
+  "version": "0.3.1",
   "homepage": "https://github.com/amazingSurge/jquery-asPaginator",
   "author": {
     "name": "amazingSurge",
@@ -120,7 +120,6 @@
     "npm": ">= 3"
   },
   "dependencies": {
-    "jquery": ">=2.2.0",
-    "prismjs": "^1.5.1"
+    "jquery": ">=2.2.0"
   }
 }

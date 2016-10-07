@@ -1,5 +1,5 @@
 /**
-* jQuery asPaginator v0.3.0
+* jQuery asPaginator v0.3.1
 * https://github.com/amazingSurge/jquery-asPaginator
 *
 * Copyright (c) amazingSurge
@@ -993,7 +993,7 @@
     });
 
     var info = {
-      version: '0.3.0'
+      version: '0.3.1'
     };
 
     var NAMESPACE = 'asPaginator';

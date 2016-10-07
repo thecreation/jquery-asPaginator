@@ -1,9 +1,6 @@
 # [jQuery asPaginator](https://github.com/amazingSurge/jquery-asPaginator) ![bower][bower-image] [![NPM version][npm-image]][npm-url] [![Dependency Status][daviddm-image]][daviddm-url] [![prs-welcome]](#contributing)
 
-> asPaginator was designed to make implementation as easy as possible. Before implementing, make sure you meet the minimum requirements.
-
-![image][]
- [image]: https://raw.github.com/amazingSurge/jquery-asPaginator/master/demo/img/asPaginator.png
+> A jquery plugins taht help generate a paginator.
 
 ## Table of contents
 - [Main files](#main-files)
