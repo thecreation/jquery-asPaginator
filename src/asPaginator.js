@@ -201,7 +201,7 @@ class AsPaginator {
     this.currentPage = page;
 
     if (this.initialized) {
-      this._trigger('change', [page]);
+      this._trigger('change', page);
     }
   }
 
@@ -332,15 +332,15 @@ class AsPaginator {
     this._trigger('disable');
   }
 
-  destory() {
+  destroy() {
     this.$element.removeClass(this.classes.disabled);
     this.unbindEvents();
     this.$element.data(NAMESPACE, null);
-    this._trigger('destory');
+    this._trigger('destroy');
   }
 
   _trigger(eventType, ...params) {
-    let data = [this].concat(...params);
+    let data = [this].concat(params);
 
     // event
     this.$element.trigger(`${NAMESPACE}::${eventType}`, data);
@@ -352,7 +352,7 @@ class AsPaginator {
     let onFunction = `on${eventType}`;
 
     if (typeof this.options[onFunction] === 'function') {
-      this.options[onFunction].apply(this, ...params);
+      this.options[onFunction].apply(this, params);
     }
   }
 

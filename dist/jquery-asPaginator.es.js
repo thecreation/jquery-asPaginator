@@ -1,5 +1,5 @@
 /**
-* jQuery asPaginator v0.3.1
+* jQuery asPaginator v0.3.2
 * https://github.com/amazingSurge/jquery-asPaginator
 *
 * Copyright (c) amazingSurge
@@ -278,7 +278,7 @@ class AsPaginator {
     this.currentPage = page;
 
     if (this.initialized) {
-      this._trigger('change', [page]);
+      this._trigger('change', page);
     }
   }
 
@@ -409,15 +409,15 @@ class AsPaginator {
     this._trigger('disable');
   }
 
-  destory() {
+  destroy() {
     this.$element.removeClass(this.classes.disabled);
     this.unbindEvents();
     this.$element.data(NAMESPACE$1, null);
-    this._trigger('destory');
+    this._trigger('destroy');
   }
 
   _trigger(eventType, ...params) {
-    let data = [this].concat(...params);
+    let data = [this].concat(params);
 
     // event
     this.$element.trigger(`${NAMESPACE$1}::${eventType}`, data);
@@ -429,7 +429,7 @@ class AsPaginator {
     let onFunction = `on${eventType}`;
 
     if (typeof this.options[onFunction] === 'function') {
-      this.options[onFunction].apply(this, ...params);
+      this.options[onFunction].apply(this, params);
     }
   }
 
@@ -808,7 +808,7 @@ AsPaginator.registerComponent('info', {
 });
 
 var info = {
-  version:'0.3.1'
+  version:'0.3.2'
 };
 
 const NAMESPACE = 'asPaginator';
@@ -845,6 +845,7 @@ const jQueryAsPaginator = function(totalItems, ...args) {
 $.fn.asPaginator = jQueryAsPaginator;
 
 $.asPaginator = $.extend({
+  registerComponent: AsPaginator.registerComponent,
   setDefaults: AsPaginator.setDefaults,
   noConflict: function() {
     $.fn.asPaginator = OtherAsPaginator;

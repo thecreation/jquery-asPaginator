@@ -1,5 +1,5 @@
 /**
-* jQuery asPaginator v0.3.1
+* jQuery asPaginator v0.3.2
 * https://github.com/amazingSurge/jquery-asPaginator
 *
 * Copyright (c) amazingSurge
@@ -396,7 +396,7 @@
           this.currentPage = page;
 
           if (this.initialized) {
-            this._trigger('change', [page]);
+            this._trigger('change', page);
           }
         }
       }, {
@@ -549,23 +549,21 @@
           this._trigger('disable');
         }
       }, {
-        key: 'destory',
-        value: function destory() {
+        key: 'destroy',
+        value: function destroy() {
           this.$element.removeClass(this.classes.disabled);
           this.unbindEvents();
           this.$element.data(NAMESPACE$1, null);
-          this._trigger('destory');
+          this._trigger('destroy');
         }
       }, {
         key: '_trigger',
         value: function _trigger(eventType) {
-          var _ref;
-
           for (var _len2 = arguments.length, params = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
             params[_key2 - 1] = arguments[_key2];
           }
 
-          var data = (_ref = [this]).concat.apply(_ref, params);
+          var data = [this].concat(params);
 
           // event
           this.$element.trigger(NAMESPACE$1 + '::' + eventType, data);
@@ -580,9 +578,7 @@
           var onFunction = 'on' + eventType;
 
           if (typeof this.options[onFunction] === 'function') {
-            var _options$onFunction;
-
-            (_options$onFunction = this.options[onFunction]).apply.apply(_options$onFunction, [this].concat(params));
+            this.options[onFunction].apply(this, params);
           }
         }
       }, {
@@ -993,7 +989,7 @@
     });
 
     var info = {
-      version: '0.3.1'
+      version: '0.3.2'
     };
 
     var NAMESPACE = 'asPaginator';
@@ -1059,6 +1055,7 @@
     _jquery2.default.fn.asPaginator = jQueryAsPaginator;
 
     _jquery2.default.asPaginator = _jquery2.default.extend({
+      registerComponent: AsPaginator.registerComponent,
       setDefaults: AsPaginator.setDefaults,
       noConflict: function noConflict() {
         _jquery2.default.fn.asPaginator = OtherAsPaginator;

@@ -1,6 +1,6 @@
 {
   "name": "jquery.asPaginator",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A jquery plugins taht help generate a paginator.",
   "main": "dist/jquery-asPaginator.js",
   "copyright": "amazingSurge",

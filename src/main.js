@@ -36,6 +36,7 @@ const jQueryAsPaginator = function(totalItems, ...args) {
 $.fn.asPaginator = jQueryAsPaginator;
 
 $.asPaginator = $.extend({
+  registerComponent: AsPaginator.registerComponent,
   setDefaults: AsPaginator.setDefaults,
   noConflict: function() {
     $.fn.asPaginator = OtherAsPaginator;

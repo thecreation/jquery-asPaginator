@@ -46,6 +46,11 @@ bower install jquery-asPaginator --save
 npm install jquery-asPaginator --save
 ```
 
+#### Install From Yarn
+```sh
+yarn add jquery-asPaginator
+```
+
 #### Build From Source
 If you want build from source:
 
@@ -131,11 +136,11 @@ You can also save the instances to variable for further use.
 
 ```javascript
 // call directly
-$().asPaginator('destory');
+$().asPaginator('destroy');
 
 // or
 var api = $().data('asPaginator');
-api.destory();
+api.destroy();
 ```
 
 #### enable()
