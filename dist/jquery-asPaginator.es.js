@@ -1,5 +1,5 @@
 /**
-* jQuery asPaginator v0.3.2
+* jQuery asPaginator v0.3.3
 * https://github.com/amazingSurge/jquery-asPaginator
 *
 * Copyright (c) amazingSurge
@@ -113,7 +113,7 @@ class AsPaginator {
     this.classes = {
       disabled: this.options.disabledClass,
       active: this.options.activeClass
-    }
+    };
 
     this.disabled = false;
 
@@ -476,7 +476,7 @@ AsPaginator.registerComponent('prev', {
   unbindEvents() {
     this.$prev.off('click.asPaginator');
   }
-})
+});
 
 AsPaginator.registerComponent('next', {
   defaults: {
@@ -752,7 +752,7 @@ AsPaginator.registerComponent('altLists', {
       }
 
       instance.goTo(page);
-    })
+    });
 
     that.render(instance);
     instance.$element.on('asPaginator::change', () => {
@@ -808,7 +808,7 @@ AsPaginator.registerComponent('info', {
 });
 
 var info = {
-  version:'0.3.2'
+  version:'0.3.3'
 };
 
 const NAMESPACE = 'asPaginator';

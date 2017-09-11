@@ -1,8 +1,9 @@
 /**
-* jQuery asPaginator v0.3.2
+* jQuery asPaginator v0.3.3
 * https://github.com/amazingSurge/jquery-asPaginator
 *
 * Copyright (c) amazingSurge
 * Released under the LGPL-3.0 license
 */
 .asPaginator{overflow:hidden}.asPaginator li{float:left;margin:0 5px;list-style:none}.asPaginator li a{display:inline-block;padding:5px 9px;text-decoration:none;text-transform:capitalize;cursor:default}.asPaginator li{margin:0;background-color:#fff;border-top:1px solid #c9c9c9;border-right:1px solid #c9c9c9;border-bottom:1px solid #c9c9c9}.asPaginator li a{padding:6px 10px;color:#666}.asPaginator li:hover a{color:#ff755a}.asPaginator li:first-child{border-left:1px solid #c9c9c9}.asPaginator .asPaginator_active{margin:0 0 0 -1px;background-color:#ff755a;border:1px solid #ff755a}.asPaginator .asPaginator_active a{padding:6px 10px;color:#fff}.asPaginator .asPaginator_active:hover a{color:#fff}.asPaginator .asPaginator_disable:hover a,.asPaginator .asPaginator_disable a{color:#ff7155}.asPaginator .asPaginator_omit:hover a{color:#666}
+/*# sourceMappingURL=asPaginator.min.css.map */

@@ -16,26 +16,26 @@
   }
 }
 
-$paginatorFontColor: #666;
-$paginatorBgColor: #fff;
-$paginatorStateColor: #ff755a;
+$paginatorFontColor: #666 !default;
+$paginatorBgColor: #fff !default;
+$paginatorStateColor: #ff755a !default;
 
-$paginatorListsFontColor: $paginatorFontColor;
-$paginatorOmitHoverFontColor: $paginatorFontColor;
+$paginatorListsFontColor: $paginatorFontColor !default;
+$paginatorOmitHoverFontColor: $paginatorFontColor !default;
 
-$paginatorListsBgColor: $paginatorBgColor;
-$paginatorListsBdTopColor: darken($paginatorBgColor,21%);
-$paginatorListsBdBottomColor: $paginatorListsBdTopColor;
-$paginatorListsBdRightColor: $paginatorListsBdTopColor;
-$paginatorArrowBdColor: $paginatorListsBdTopColor;
+$paginatorListsBgColor: $paginatorBgColor !default;
+$paginatorListsBdTopColor: darken($paginatorBgColor,21%) !default;
+$paginatorListsBdBottomColor: $paginatorListsBdTopColor !default;
+$paginatorListsBdRightColor: $paginatorListsBdTopColor !default;
+$paginatorArrowBdColor: $paginatorListsBdTopColor !default;
 
-$paginatorListsHoverFontColor: $paginatorStateColor;
-$paginatorActiveFontColor: lighten($paginatorStateColor,100%);
-$paginatorActiveHoverFontColor: $paginatorActiveFontColor;
-$paginatorActiveBgColor: $paginatorStateColor;
-$paginatorActiveBdColor: $paginatorActiveBgColor;
-$paginatorDisableFontColor: rgba(darken($paginatorStateColor,100%/100.0%),20%);;
-$paginatorDisableHoverFontColor: $paginatorDisableFontColor;
+$paginatorListsHoverFontColor: $paginatorStateColor !default;
+$paginatorActiveFontColor: lighten($paginatorStateColor,100%) !default;
+$paginatorActiveHoverFontColor: $paginatorActiveFontColor !default;
+$paginatorActiveBgColor: $paginatorStateColor !default;
+$paginatorActiveBdColor: $paginatorActiveBgColor !default;
+$paginatorDisableFontColor: rgba(darken($paginatorStateColor,100%/100.0%),20%) !default;
+$paginatorDisableHoverFontColor: $paginatorDisableFontColor !default;
 
 .asPaginator {
   li {
